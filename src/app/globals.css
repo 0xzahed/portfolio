@@ -1,26 +1,158 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-ink: #050505;
+  --color-graphite: #0c0d0d;
+  --color-carbon: #141515;
+  --color-bone: #f2f2ee;
+  --color-ash: #8a8a8a;
+  --color-smoke: #777777;
+  --color-signal: #20b796;
+  --color-mint: #7ae7d1;
+  --color-rule: rgb(255 255 255 / 0.08);
+  --color-rule-strong: rgb(255 255 255 / 0.16);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --ease-cine: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-pulse-dot: pulse-dot 2.4s var(--ease-out-expo) infinite;
+  --animate-grain: grain 0.9s steps(6) infinite;
+
+  @keyframes pulse-dot {
+    0% { transform: scale(1); opacity: 0.7; }
+    80%, 100% { transform: scale(2.8); opacity: 0; }
+  }
+  @keyframes grain {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-3%, 2%); }
+    40% { transform: translate(2%, -3%); }
+    60% { transform: translate(-2%, -1%); }
+    80% { transform: translate(3%, 3%); }
+    100% { transform: translate(0, 0); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  :root {
+    color-scheme: dark;
+    --gutter: clamp(1.25rem, 3.5vw, 3rem);
+    --nav-h: 4.5rem;
+  }
+
+  html {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-mint);
+    outline-offset: 4px;
+  }
+
+  /* Hide native cursor only when the custom cursor is live (fine pointers). */
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .shell {
+    padding-inline: var(--gutter);
+    margin-inline: auto;
+    width: 100%;
+    max-width: 112rem;
+  }
+
+  /* Display type: Archivo with a variable width axis. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.86;
+    text-transform: uppercase;
+    font-variation-settings: "wdth" var(--wdth, 100);
+  }
+
+  /* Re-apply the width axis on a child whose --wdth is animated separately. */
+  .wdth {
+    font-variation-settings: "wdth" var(--wdth, 100);
+  }
+
+  .group:hover .link-line,
+  .group:focus-visible .link-line {
+    background-size: 100% 1px;
+  }
+
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ash);
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ash);
+  }
+
+  .hairline {
+    border-color: var(--color-rule);
+  }
+
+  /* Underline that draws in from the left on hover / focus. */
+  .link-line {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.6s var(--ease-out-expo), color 0.3s;
+  }
+  .link-line:hover,
+  .link-line:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(242 242 238 / 0.35);
+  }
 }
