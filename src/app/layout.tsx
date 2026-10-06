@@ -66,8 +66,12 @@ const jsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${archivo.variable} ${geist.variable} ${geistMono.variable} antialiased`}>
-      <body>
+    <html
+      lang="en"
+      className={`${archivo.variable} ${geist.variable} ${geistMono.variable} antialiased`}
+      style={{ backgroundColor: "#050505", colorScheme: "dark" }}
+    >
+      <body style={{ backgroundColor: "#050505", color: "#f2f2ee" }}>
         <noscript>
           <style>{`#preloader{display:none!important}.js-reveal{opacity:1!important;transform:none!important}`}</style>
         </noscript>

@@ -36,7 +36,7 @@ export function Hero() {
       ref={ref}
       id="top"
       aria-labelledby="hero-title"
-      className="relative flex min-h-[100svh] flex-col overflow-hidden"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink"
     >
       <div aria-hidden className="absolute inset-0">
         {reduce ? (
@@ -60,7 +60,7 @@ export function Hero() {
           {person.roles.join(" · ")}
         </m.p>
 
-        <m.h1 id="hero-title" style={{ y: headY }} className="display text-[clamp(3.4rem,min(12.6vw,19svh),17rem)]">
+        <m.h1 id="hero-title" style={{ y: headY }} className="display text-ash text-[clamp(3.4rem,min(12.6vw,19svh),17rem)]">
           <span className="sr-only">{HEADLINE.join(" ")}</span>
           {HEADLINE.map((word, i) => (
             <span
@@ -93,12 +93,12 @@ export function Hero() {
           animate={ready ? { y: 0 } : { y: 24 }}
           transition={{ duration: 1, ease: EASE_OUT, delay: 0.85 }}
         >
-          <p className="max-w-[34ch] text-lg leading-snug text-bone md:col-span-4 lg:col-span-5 md:text-xl">{person.intro}</p>
+          <p className="max-w-[34ch] text-lg leading-snug text-ash md:col-span-4 lg:col-span-5 md:text-xl">{person.intro}</p>
 
           <dl className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm md:col-span-4 md:col-start-5 lg:col-start-6">
             <div>
               <dt className="text-ash">Based in</dt>
-              <dd>
+              <dd className="text-ash">
                 {person.location}
                 <span className="ml-2 font-mono text-xs text-ash tabular-nums" suppressHydrationWarning>
                   {time}
@@ -107,7 +107,7 @@ export function Hero() {
             </div>
             <div>
               <dt className="text-ash">Status</dt>
-              <dd className="flex items-center gap-2">
+              <dd className="flex items-center gap-2 text-ash">
                 <StatusDot />
                 {person.availability}
               </dd>
@@ -122,7 +122,7 @@ export function Hero() {
                   e.preventDefault();
                   scrollTo("#work");
                 }}
-                className="inline-flex h-12 items-center bg-bone px-6 text-sm font-medium text-ink transition-colors duration-300 hover:bg-mint"
+                className="inline-flex h-12 items-center border border-rule-strong bg-carbon px-6 text-sm font-medium text-ash transition-colors duration-300 hover:border-signal hover:text-mint"
               >
                 View projects
               </a>
@@ -134,7 +134,7 @@ export function Hero() {
                   e.preventDefault();
                   scrollTo("#contact");
                 }}
-                className="inline-flex h-12 items-center border border-rule-strong px-6 text-sm transition-colors duration-300 hover:border-bone"
+                className="inline-flex h-12 items-center border border-rule-strong px-6 text-sm text-ash transition-colors duration-300 hover:border-bone hover:text-bone"
               >
                 Let&apos;s work together
               </a>
