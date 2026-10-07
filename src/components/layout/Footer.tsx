@@ -3,7 +3,7 @@ import { person, socials } from "@/data/portfolio";
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-rule">
+    <footer className="relative border-t border-rule">
       <div className="shell grid grid-cols-2 gap-x-6 gap-y-10 py-12 text-sm md:grid-cols-12">
         <div className="col-span-2 md:col-span-4">
           <p className="display text-2xl [--wdth:112]">

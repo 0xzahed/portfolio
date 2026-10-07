@@ -7,6 +7,7 @@ import { MotionProvider } from "@/components/providers/MotionProvider";
 import { Preloader } from "@/components/ui/Preloader";
 import { Cursor } from "@/components/ui/Cursor";
 import { Grain } from "@/components/ui/Grain";
+import { SiteField } from "@/components/ui/SiteField";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
@@ -86,9 +87,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <MotionProvider>
             <SmoothScroll>
               <Preloader />
+              <SiteField />
               <ScrollProgress />
               <Nav />
-              <main id="main">{children}</main>
+              <main id="main" className="relative">{children}</main>
               <Footer />
               <Cursor />
               <Grain />

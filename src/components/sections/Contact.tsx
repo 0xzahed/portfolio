@@ -19,12 +19,12 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative border-t border-rule pb-24 pt-32 md:pb-32 md:pt-48">
+    <section id="contact" aria-labelledby="contact-title" className="relative border-t border-rule pb-20 pt-20 md:pb-32 md:pt-48">
       <div className="shell">
         <RevealLines
           id="contact-title"
           lines={contact.heading}
-          className="display text-[clamp(3.6rem,14vw,17rem)] [--wdth:96]"
+          className="display text-[12.5vw] [--wdth:96] md:text-[clamp(3.6rem,14vw,17rem)]"
         />
 
         <div className="mt-16 grid grid-cols-1 gap-12 md:mt-24 md:grid-cols-12 md:gap-x-6">

@@ -2,8 +2,18 @@ import { getGitHubActivity, type ContributionDay } from "@/lib/github";
 import { github, projects } from "@/data/portfolio";
 import { RevealLines, Fade } from "@/components/ui/Reveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
+import { ActivitySkyline } from "@/components/sections/ActivitySkyline";
+import ContributionSkyline from "@/components/ui/contribution-skyline";
+import type { CSSProperties } from "react";
 
-const LEVEL_BG = ["bg-white/[0.04]", "bg-signal/25", "bg-signal/45", "bg-signal/70", "bg-mint"];
+// The skyline reads shadcn-style colour tokens; map them onto the site palette.
+const SKYLINE_THEME = {
+  "--color-background": "var(--color-graphite)",
+  "--color-foreground": "var(--color-bone)",
+  "--color-border": "var(--color-rule)",
+  "--color-muted-foreground": "var(--color-ash)",
+} as CSSProperties;
+const SKYLINE_PALETTE = ["#0f3d33", "#147a62", "#20b796", "#7ae7d1"];
 const WEEKS = 53;
 
 function EmptyGrid() {
@@ -25,19 +35,14 @@ function EmptyGrid() {
 
 function Grid({ days }: { days: ContributionDay[] | null }) {
   if (!days) return <EmptyGrid />;
-  const cells = days.slice(-WEEKS * 7);
   return (
-    <div className="overflow-x-auto pb-2 [scrollbar-width:none]">
-      <div
-        className="grid min-w-[640px] grid-flow-col gap-[3px]"
-        style={{ gridTemplateRows: "repeat(7, minmax(0, 1fr))", gridTemplateColumns: `repeat(${WEEKS}, minmax(0, 1fr))` }}
-        role="img"
-        aria-label={`Contribution calendar: ${cells.reduce((a, d) => a + d.count, 0)} contributions in the last year`}
-      >
-        {cells.map((d) => (
-          <span key={d.date} className={`block aspect-square ${LEVEL_BG[d.level]}`} title={`${d.count} on ${d.date}`} />
-        ))}
-      </div>
+    // Full-bleed on phones: the year is 53 columns wide and needs every pixel.
+    <div style={SKYLINE_THEME} className="-mx-[var(--gutter)] sm:mx-0">
+      <ContributionSkyline
+        data={days}
+        palette={SKYLINE_PALETTE}
+        className="!rounded-none max-sm:!border-x-0 max-sm:!px-2"
+      />
     </div>
   );
 }
@@ -67,7 +72,7 @@ export async function Activity() {
   const maxFreq = freq[0]?.[1] ?? 1;
 
   return (
-    <section aria-labelledby="activity-title" className="relative border-t border-rule py-32 md:py-44">
+    <section aria-labelledby="activity-title" className="relative border-t border-rule py-20 md:py-44">
       <div className="shell">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-x-6">
           <RevealLines
@@ -92,7 +97,7 @@ export async function Activity() {
             )}
           </div>
           <div className="mt-6">
-            <Grid days={data?.days ?? null} />
+            {data?.days ? <ActivitySkyline days={data.days} /> : <Grid days={null} />}
           </div>
           {!data && (
             <p className="mt-4 font-mono text-xs text-smoke">

@@ -126,11 +126,11 @@ export function Nav() {
             </button>
           </div>
         </div>
-        {/* Hairline fades in once the bar compacts, so it reads as a frame edge. */}
+        {/* Dark backdrop fades in once the bar compacts. */}
         <div
           aria-hidden
           className={cn(
-            "absolute inset-0 -z-10 border-b border-rule bg-ink/95 transition-opacity duration-500",
+            "absolute inset-0 -z-10 bg-ink/95 transition-opacity duration-500",
             compact && !open ? "opacity-100" : "opacity-0",
           )}
         />

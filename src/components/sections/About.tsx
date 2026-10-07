@@ -87,7 +87,7 @@ export function About() {
   const words = about.statement.flatMap((line, li) => line.split(" ").map((w) => ({ w, li })));
 
   return (
-    <section id="about" aria-labelledby="about-title" className="relative py-32 md:py-48">
+    <section id="about" aria-labelledby="about-title" className="relative py-20 md:py-48">
       <div className="shell">
         <h2
           id="about-title"

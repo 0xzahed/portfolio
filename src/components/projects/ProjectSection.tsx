@@ -55,13 +55,13 @@ export function ProjectSection({ project, index, total }: { project: Project; in
   // Visual leans toward the pointer.
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 120, damping: 20 });
-  const sy = useSpring(my, { stiffness: 120, damping: 20 });
+  const sx = useSpring(mx, { stiffness: 70, damping: 22, mass: 0.8 });
+  const sy = useSpring(my, { stiffness: 70, damping: 22, mass: 0.8 });
   const onMove = (e: PointerEvent<HTMLDivElement>) => {
     if (!fine || reduce || !mediaRef.current) return;
     const r = mediaRef.current.getBoundingClientRect();
-    mx.set(((e.clientX - r.left) / r.width - 0.5) * 18);
-    my.set(((e.clientY - r.top) / r.height - 0.5) * 12);
+    mx.set(((e.clientX - r.left) / r.width - 0.5) * 12);
+    my.set(((e.clientY - r.top) / r.height - 0.5) * 8);
   };
   const onLeave = () => {
     mx.set(0);
@@ -73,7 +73,7 @@ export function ProjectSection({ project, index, total }: { project: Project; in
     <article
       ref={ref}
       aria-labelledby={`project-${project.slug}`}
-      className="relative border-t border-rule pb-24 pt-6 md:pb-40"
+      className="group/card relative border-t border-rule pb-20 pt-6 md:pb-28"
     >
       <div className="grid grid-cols-2 gap-x-6 text-[0.75rem] uppercase tracking-[0.12em] text-ash md:grid-cols-12">
         <p className="flex items-center gap-3 md:col-span-3">
@@ -94,11 +94,11 @@ export function ProjectSection({ project, index, total }: { project: Project; in
         <p className="hidden text-right md:col-span-3 md:col-start-10 md:block">{project.year}</p>
       </div>
 
-      <h3 id={`project-${project.slug}`} className="mt-8 md:mt-10">
+      <h3 id={`project-${project.slug}`} className="mt-6 md:mt-8">
         <Link
           href={href}
-          className={cn("display block text-[clamp(2.75rem,11.5vw,13rem)] transition-[font-variation-settings,color] duration-700 ease-[var(--ease-out-expo)]", flip && "md:text-right")}
-          style={{ ["--wdth" as string]: hover ? 118 : 96 }}
+          className={cn("display block text-[clamp(2.25rem,7vw,7.5rem)] transition-[font-variation-settings,color] duration-1000 ease-[var(--ease-out-expo)] hover:text-mint", flip && "md:text-right")}
+          style={{ ["--wdth" as string]: hover ? 108 : 96 }}
           data-cursor="view"
           data-cursor-label="Open"
         >
@@ -106,7 +106,7 @@ export function ProjectSection({ project, index, total }: { project: Project; in
         </Link>
       </h3>
 
-      <div className="mt-10 grid grid-cols-1 gap-10 md:mt-14 md:grid-cols-12 md:gap-x-6">
+      <div className="mt-8 grid grid-cols-1 gap-8 md:mt-10 md:grid-cols-12 md:gap-x-6">
         <div
           className={cn(
             "flex flex-col justify-between gap-10 md:col-span-4",
@@ -114,17 +114,19 @@ export function ProjectSection({ project, index, total }: { project: Project; in
           )}
         >
           <div>
-            <p className="max-w-[42ch] text-lg leading-snug text-bone md:text-xl">{project.summary}</p>
-            <p className="mt-5 text-sm text-ash">{project.role}</p>
+            <p className="max-w-[44ch] text-[0.9375rem] leading-relaxed text-bone/90 md:text-base">{project.summary}</p>
+            <p className="mt-4 text-[0.8125rem] text-ash">{project.role}</p>
           </div>
           <div>
             <h4 className="sr-only">Technology</h4>
-            <ul className="flex flex-wrap gap-x-4 gap-y-2 border-t border-rule pt-5 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-ash">
+            <ul className="flex flex-wrap gap-1.5 border-t border-rule pt-5 font-mono text-[0.625rem] uppercase tracking-[0.06em] text-ash">
               {project.technologies.map((t) => (
-                <li key={t}>{t}</li>
+                <li key={t} className="rounded-full border border-rule px-2.5 py-1 transition-colors duration-300 group-hover/card:border-rule-strong group-hover/card:text-bone/80">
+                  {t}
+                </li>
               ))}
             </ul>
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
+            <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[0.8125rem]">
               <Link href={href} className="group inline-flex items-center gap-2 text-bone">
                 <span className="link-line">View project</span>
                 <ArrowUpRight aria-hidden className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={1.5} />
@@ -157,18 +159,31 @@ export function ProjectSection({ project, index, total }: { project: Project; in
             tabIndex={-1}
             className="block"
           >
-            <m.div style={{ clipPath }} className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10]">
+            <m.div
+              style={{ clipPath }}
+              className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-rule bg-graphite/60 shadow-[0_0_0_0_rgba(32,183,150,0)] transition-[border-color,box-shadow] duration-700 ease-[var(--ease-out-expo)] group-hover/card:border-signal/40 group-hover/card:shadow-[0_30px_80px_-30px_rgba(32,183,150,0.35)] sm:aspect-[16/10]"
+            >
               <m.div style={{ scale: innerScale }} className="h-full w-full">
                 <m.div
                   style={{ x: sx, y: sy }}
-                  animate={{ scale: hover ? 1.025 : 1 }}
-                  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                  animate={{ scale: hover ? 1.03 : 1 }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                   className="h-full w-full"
                   aria-hidden
                 >
                   <ProjectMedia project={project} defer={!near} />
                 </m.div>
               </m.div>
+              <m.span
+                aria-hidden
+                className="pointer-events-none absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-bone px-3.5 py-2 text-xs font-medium text-ink"
+                initial={false}
+                animate={hover ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.96 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                View case study
+                <ArrowUpRight className="size-3.5" strokeWidth={2} />
+              </m.span>
             </m.div>
           </Link>
         </div>

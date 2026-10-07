@@ -19,26 +19,26 @@ export function Preloader() {
   const reduce = useReducedMotion();
   const lenis = useLenis();
   const [visible, setVisible] = useState(true);
-  const started = useRef(false);
+  const skip = useRef<boolean | null>(null);
   const countRef = useRef<HTMLParagraphElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-
-    let seen = false;
-    try {
-      seen = sessionStorage.getItem(SESSION_KEY) === "1";
-      sessionStorage.setItem(SESSION_KEY, "1");
-    } catch {
-      /* storage blocked: just play it */
+    // Decide once (StrictMode re-runs effects; the second run must not read our own write).
+    if (skip.current === null) {
+      let seen = false;
+      try {
+        seen = sessionStorage.getItem(SESSION_KEY) === "1";
+        sessionStorage.setItem(SESSION_KEY, "1");
+      } catch {
+        /* storage blocked: just play it */
+      }
+      // Phones skip the counter (it's also hidden by CSS below md, so it never blocks first paint).
+      const small = window.matchMedia("(max-width: 767px)").matches;
+      skip.current = seen || !!reduce || small;
     }
 
-    // Phones skip the counter (it's also hidden by CSS below md, so it never blocks first paint).
-    const small = window.matchMedia("(max-width: 767px)").matches;
-
-    if (seen || reduce || small) {
+    if (skip.current) {
       setVisible(false);
       setReady(true);
       return;

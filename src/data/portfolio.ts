@@ -31,7 +31,7 @@ export const person = {
 };
 
 export const socials: SocialLink[] = [
-  { label: "GitHub", handle: "@your-username", href: "https://github.com/your-username" }, // REPLACE
+  { label: "GitHub", handle: "@0xzahed", href: "https://github.com/0xzahed" },
   { label: "LinkedIn", handle: "in/your-username", href: "https://www.linkedin.com/in/your-username" }, // REPLACE
   { label: "X", handle: "@your-username", href: "https://x.com/your-username" }, // REPLACE
 ];
@@ -252,7 +252,7 @@ export const github = {
    * contributions (fetched at build time, refreshed daily). Leave empty
    * to show an empty grid — nothing is ever invented.
    */
-  username: "", // REPLACE e.g. "zahed"
+  username: "0xzahed",
   revalidateSeconds: 60 * 60 * 24,
 };
 

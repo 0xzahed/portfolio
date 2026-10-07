@@ -30,7 +30,7 @@ export function Philosophy() {
   const rule = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section ref={ref} aria-labelledby="philosophy-title" className="relative h-[260vh] border-t border-rule">
+    <section ref={ref} aria-labelledby="philosophy-title" className="relative h-[190vh] border-t border-rule md:h-[260vh]">
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden">
         <div className="shell">
           <h2 id="philosophy-title" className="display text-[clamp(3rem,min(9.6vw,22svh),13rem)] leading-[0.84]">

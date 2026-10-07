@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { useIntro } from "@/components/providers/IntroProvider";
@@ -10,8 +9,8 @@ import { StatusDot } from "@/components/ui/StatusDot";
 import { useLocalTime } from "@/hooks/useLocalTime";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { person } from "@/data/portfolio";
-
-const HeroField = dynamic(() => import("./HeroField"), { ssr: false });
+import portrait from "@/assets/zahed-portrait.webp";
+import { DitherPortrait } from "@/components/ui/DitherPortrait";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 const HEADLINE = ["Building", "digital", "systems."];
@@ -36,23 +35,31 @@ export function Hero() {
       ref={ref}
       id="top"
       aria-labelledby="hero-title"
-      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden"
     >
-      <div aria-hidden className="absolute inset-0">
-        {reduce ? (
-          <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_75%_45%,rgba(32,183,150,0.08),transparent_70%)]" />
-        ) : (
-          <HeroField active={ready} />
-        )}
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent" />
-      </div>
-
       <m.div
         style={{ opacity: fade }}
-        className="shell relative flex flex-1 flex-col justify-end pb-8 pt-[calc(var(--nav-h)+3rem)] md:pb-10"
+        className="shell relative flex flex-1 flex-col justify-end lg:static pb-8 pt-[calc(var(--nav-h)+3rem)] md:pb-10"
       >
+        <div className="relative lg:static">
+          {/* Phones: sits in the empty space above the headline. Desktop: stands on the rule, right of the type. */}
+          <m.div
+            aria-hidden
+            className="pointer-events-none relative -mb-[4svh] ml-auto aspect-[433/692] h-[50svh] lg:absolute lg:bottom-0 lg:right-[max(var(--gutter),calc((100%-112rem)/2+var(--gutter)))] lg:mb-0 lg:h-[min(92svh,920px)]"
+            initial={{ opacity: 0, y: reduce ? 0 : 40 }}
+            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: reduce ? 0 : 40 }}
+            transition={{ duration: 1.4, ease: EASE_OUT, delay: 0.35 }}
+          >
+            <DitherPortrait
+              src={portrait.src}
+              active={ready}
+              cellSize={small ? 4 : 5}
+              className="relative h-full w-full [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]"
+            />
+          </m.div>
+
         <m.p
-          className="js-reveal eyebrow mb-6 md:mb-10"
+          className="js-reveal eyebrow relative z-10 mb-6 md:mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: ready ? 1 : 0 }}
           transition={{ duration: 0.8, delay: 0.05 }}
@@ -60,7 +67,7 @@ export function Hero() {
           {person.roles.join(" · ")}
         </m.p>
 
-        <m.h1 id="hero-title" style={{ y: headY }} className="display text-ash text-[clamp(3.4rem,min(12.6vw,19svh),17rem)]">
+        <m.h1 id="hero-title" style={{ y: headY }} className="display relative z-10 text-ash text-[clamp(3.4rem,min(12.6vw,19svh),17rem)]">
           <span className="sr-only">{HEADLINE.join(" ")}</span>
           {HEADLINE.map((word, i) => (
             <span
@@ -86,9 +93,10 @@ export function Hero() {
             </span>
           ))}
         </m.h1>
+        </div>
 
         <m.div
-          className="js-reveal mt-8 grid grid-cols-1 gap-y-8 border-t border-rule pt-6 md:mt-10 md:grid-cols-12 md:gap-x-6"
+          className="js-reveal relative z-10 mt-8 grid grid-cols-1 gap-y-8 border-t border-rule pt-6 md:mt-10 md:grid-cols-12 md:gap-x-6"
           initial={false}
           animate={ready ? { y: 0 } : { y: 24 }}
           transition={{ duration: 1, ease: EASE_OUT, delay: 0.85 }}
@@ -134,7 +142,7 @@ export function Hero() {
                   e.preventDefault();
                   scrollTo("#contact");
                 }}
-                className="inline-flex h-12 items-center border border-rule-strong px-6 text-sm text-ash transition-colors duration-300 hover:border-bone hover:text-bone"
+                className="inline-flex h-12 items-center border border-rule-strong bg-ink/80 px-6 text-sm text-ash backdrop-blur-sm transition-colors duration-300 hover:border-bone hover:text-bone"
               >
                 Let&apos;s work together
               </a>

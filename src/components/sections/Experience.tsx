@@ -43,7 +43,7 @@ export function Experience() {
   const { scrollYProgress } = useScroll({ target: listRef, offset: ["start 70%", "end 50%"] });
 
   return (
-    <section id="experience" aria-labelledby="exp-title" className="relative border-t border-rule py-32 md:py-44">
+    <section id="experience" aria-labelledby="exp-title" className="relative border-t border-rule py-20 md:py-44">
       <div className="shell">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-x-6">
           <RevealLines id="exp-title" lines={["Experience"]} className="display text-[clamp(3rem,10vw,11rem)] [--wdth:76] md:col-span-9" />

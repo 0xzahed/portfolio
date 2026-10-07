@@ -5,7 +5,7 @@ import { Fade } from "@/components/ui/Reveal";
 export function CurrentlyBuilding() {
   const updated = new Date(cb.updated + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
   return (
-    <section aria-labelledby="building-title" className="relative border-t border-rule bg-graphite py-20 md:py-28">
+    <section aria-labelledby="building-title" className="relative border-t border-rule bg-graphite/70 py-20 md:py-28">
       <div className="shell">
         <Fade>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-x-6">

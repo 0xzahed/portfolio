@@ -35,7 +35,7 @@ export function Engineering() {
   };
 
   return (
-    <section aria-labelledby="eng-title" className="relative border-t border-rule py-32 md:py-44">
+    <section aria-labelledby="eng-title" className="relative border-t border-rule py-20 md:py-44">
       <div className="shell">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-x-6">
           <RevealLines

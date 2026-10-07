@@ -63,17 +63,30 @@ void main(){
 `;
 
 export default function HeroField({ active }: { active: boolean }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef(active);
   useEffect(() => {
     activeRef.current = active;
   }, [active]);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const host = hostRef.current;
+    if (!host) return;
+    // A fresh canvas per run: a context released by a previous cleanup (StrictMode,
+    // HMR) stays lost on its canvas and would paint as an opaque white rectangle.
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    canvas.className = "absolute inset-0 h-full w-full";
+    host.appendChild(canvas);
+    const fallback = () => {
+      canvas.remove();
+      host.dataset.fallback = "true";
+    };
     const gl = canvas.getContext("webgl", { premultipliedAlpha: true, antialias: false, alpha: true, powerPreference: "low-power" });
-    if (!gl || !gl.getExtension("OES_standard_derivatives")) return;
+    if (!gl || !gl.getExtension("OES_standard_derivatives")) {
+      fallback();
+      return () => delete host.dataset.fallback;
+    }
 
     // Software rasterisers (SwiftShader, llvmpipe) would turn a quiet backdrop into a
     // main-thread hog. Those devices get the static fallback instead.
@@ -81,8 +94,8 @@ export default function HeroField({ active }: { active: boolean }) {
     const renderer = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : "";
     if (/swiftshader|llvmpipe|software|microsoft basic render/i.test(renderer)) {
       gl.getExtension("WEBGL_lose_context")?.loseContext();
-      canvas.dataset.fallback = "true";
-      return;
+      fallback();
+      return () => delete host.dataset.fallback;
     }
 
     const compile = (type: number, src: string) => {
@@ -97,7 +110,10 @@ export default function HeroField({ active }: { active: boolean }) {
     };
     const vs = compile(gl.VERTEX_SHADER, VERT);
     const fs = compile(gl.FRAGMENT_SHADER, FRAG);
-    if (!vs || !fs) return;
+    if (!vs || !fs) {
+      fallback();
+      return () => delete host.dataset.fallback;
+    }
     const prog = gl.createProgram()!;
     gl.attachShader(prog, vs);
     gl.attachShader(prog, fs);
@@ -174,14 +190,14 @@ export default function HeroField({ active }: { active: boolean }) {
       io.disconnect();
       window.removeEventListener("pointermove", onMove);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
+      canvas.remove();
     };
   }, []);
 
   return (
-    <>
-      <canvas ref={canvasRef} aria-hidden className="peer absolute inset-0 h-full w-full data-[fallback=true]:hidden" />
+    <div ref={hostRef} aria-hidden className="group/field absolute inset-0">
       {/* Static stand-in shown when WebGL is unavailable or software-rendered. */}
-      <div className="absolute inset-0 hidden bg-[radial-gradient(60%_50%_at_75%_45%,rgba(32,183,150,0.07),transparent_70%)] peer-data-[fallback=true]:block" />
-    </>
+      <div className="absolute inset-0 hidden bg-[radial-gradient(60%_50%_at_75%_45%,rgba(32,183,150,0.07),transparent_70%)] group-data-[fallback=true]/field:block" />
+    </div>
   );
 }
