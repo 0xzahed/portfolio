@@ -46,9 +46,9 @@ export function Hero() {
           <m.div
             aria-hidden
             className="pointer-events-none relative -mb-[4svh] ml-auto aspect-[433/692] h-[50svh] lg:absolute lg:bottom-0 lg:right-[max(var(--gutter),calc((100%-112rem)/2+var(--gutter)))] lg:mb-0 lg:h-[min(92svh,920px)]"
-            initial={{ opacity: 0, y: reduce ? 0 : 40 }}
-            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: reduce ? 0 : 40 }}
-            transition={{ duration: 1.4, ease: EASE_OUT, delay: 0.35 }}
+            initial={{ opacity: 0, transform: reduce ? "none" : "translateY(40px)" }}
+            animate={ready ? { opacity: 1, transform: "translateY(0px)" } : { opacity: 0, transform: reduce ? "none" : "translateY(40px)" }}
+            transition={{ duration: 1.1, ease: EASE_OUT, delay: 0.3 }}
           >
             <DitherPortrait
               src={portrait.src}
@@ -77,14 +77,14 @@ export function Hero() {
             >
               <m.span
                 className="js-reveal wdth block origin-left"
-                initial={{ y: "105%", ["--wdth" as string]: startW ?? (i === 2 ? 100 : 112) }}
+                initial={{ transform: "translateY(105%)", ["--wdth" as string]: startW ?? (i === 2 ? 100 : 112) }}
                 animate={
                   ready
-                    ? { y: "0%", ["--wdth" as string]: i === 2 ? 100 : 112 }
-                    : { y: "105%", ["--wdth" as string]: startW ?? (i === 2 ? 100 : 112) }
+                    ? { transform: "translateY(0%)", ["--wdth" as string]: i === 2 ? 100 : 112 }
+                    : { transform: "translateY(105%)", ["--wdth" as string]: startW ?? (i === 2 ? 100 : 112) }
                 }
                 transition={{
-                  y: { duration: 1.2, ease: EASE_OUT, delay: 0.1 + i * 0.09 },
+                  transform: { duration: 1, ease: EASE_OUT, delay: 0.1 + i * 0.08 },
                   ["--wdth" as string]: { duration: 1.8, ease: [0.65, 0, 0.35, 1] as const, delay: 0.45 + i * 0.09 },
                 }}
               >
@@ -98,8 +98,8 @@ export function Hero() {
         <m.div
           className="js-reveal relative z-10 mt-8 grid grid-cols-1 gap-y-8 border-t border-rule pt-6 md:mt-10 md:grid-cols-12 md:gap-x-6"
           initial={false}
-          animate={ready ? { y: 0 } : { y: 24 }}
-          transition={{ duration: 1, ease: EASE_OUT, delay: 0.85 }}
+          animate={{ transform: ready ? "translateY(0px)" : "translateY(24px)" }}
+          transition={{ duration: 0.85, ease: EASE_OUT, delay: 0.7 }}
         >
           <p className="max-w-[34ch] text-lg leading-snug text-ash md:col-span-4 lg:col-span-5 md:text-xl">{person.intro}</p>
 

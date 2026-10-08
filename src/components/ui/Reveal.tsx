@@ -4,7 +4,10 @@ import { m, useReducedMotion, type Variants } from "motion/react";
 import type { ReactNode, ElementType } from "react";
 import { cn } from "@/lib/utils";
 
-const EASE = [0.16, 1, 0.3, 1] as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+// Animating `transform` (not Motion's x/y) lets the browser run reveals on the compositor,
+// so they stay smooth on phones even while canvases keep the main thread busy.
 
 /**
  * Masked line reveal: each line slides up from behind its own clip.
@@ -32,15 +35,15 @@ export function RevealLines({
 }) {
   const reduce = useReducedMotion();
   const variants: Variants = {
-    hidden: { y: reduce ? 0 : "105%" },
+    hidden: { transform: reduce ? "none" : "translateY(105%)" },
     shown: (i: number) => ({
-      y: "0%",
-      transition: { duration: 1.1, ease: EASE, delay: delay + i * stagger },
+      transform: "translateY(0%)",
+      transition: { duration: 0.9, ease: EASE, delay: delay + i * stagger },
     }),
   };
   const trigger =
     animateNow === undefined
-      ? { whileInView: "shown", viewport: { once: true, margin: "0px 0px -12% 0px" } }
+      ? { whileInView: "shown", viewport: { once: true, margin: "0px 0px -6% 0px" } }
       : { animate: animateNow ? "shown" : "hidden" };
 
   return (
@@ -67,7 +70,7 @@ export function Fade({
   children,
   className,
   delay = 0,
-  y = 16,
+  y = 28,
 }: {
   children: ReactNode;
   className?: string;
@@ -78,10 +81,10 @@ export function Fade({
   return (
     <m.div
       className={cn("js-reveal", className)}
-      initial={{ opacity: 0, y: reduce ? 0 : y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.9, ease: EASE, delay }}
+      initial={{ opacity: 0, transform: reduce ? "none" : `translateY(${y}px)` }}
+      whileInView={{ opacity: 1, transform: "translateY(0px)" }}
+      viewport={{ once: true, margin: "0px 0px -5% 0px" }}
+      transition={{ duration: 0.75, ease: EASE, delay }}
     >
       {children}
     </m.div>

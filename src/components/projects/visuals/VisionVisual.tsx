@@ -88,9 +88,10 @@ export function VisionVisual() {
           <m.div
             aria-hidden
             className="pointer-events-none absolute inset-0"
-            initial={{ x: "0%" }}
-            animate={{ x: ["0%", "100%"] }}
-            transition={{ duration: 3.2, ease: "easeInOut", repeat: Infinity, repeatDelay: 1.2 }}
+            initial={{ transform: "translateX(0%)" }}
+            // The pause is baked into the keyframes: `repeatDelay` would force the JS path.
+            animate={{ transform: ["translateX(0%)", "translateX(100%)", "translateX(100%)"] }}
+            transition={{ duration: 4.4, times: [0, 0.73, 1], ease: ["easeInOut", "linear"], repeat: Infinity }}
           >
             <span className="absolute inset-y-0 left-0 w-px bg-mint/70" />
           </m.div>

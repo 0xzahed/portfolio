@@ -74,7 +74,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body style={{ backgroundColor: "#050505", color: "#f2f2ee" }}>
         <noscript>
-          <style>{`#preloader{display:none!important}.js-reveal{opacity:1!important;transform:none!important}`}</style>
+          <style>{`#preloader{display:none!important}.js-reveal{opacity:1!important;transform:none!important}.reveal-media{opacity:1!important;translate:none!important;scale:none!important}`}</style>
         </noscript>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a

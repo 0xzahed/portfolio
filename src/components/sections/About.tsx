@@ -40,10 +40,10 @@ function ProcessCounter() {
           <m.div
             key={i}
             className="absolute inset-0 flex items-baseline gap-5"
-            initial={{ y: "100%" }}
-            animate={{ y: "0%" }}
-            exit={{ y: "-100%" }}
-            transition={{ duration: 0.9, ease: [0.77, 0, 0.175, 1] }}
+            initial={{ transform: "translateY(100%)" }}
+            animate={{ transform: "translateY(0%)" }}
+            exit={{ transform: "translateY(-100%)" }}
+            transition={{ duration: 0.8, ease: [0.77, 0, 0.175, 1] }}
           >
             <span
               className="display text-[clamp(7rem,15vw,13rem)] text-signal tabular-nums"

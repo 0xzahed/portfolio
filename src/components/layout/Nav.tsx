@@ -52,9 +52,9 @@ export function Nav() {
     <>
       <m.header
         className="fixed inset-x-0 top-0 z-[60]"
-        initial={{ y: "-100%" }}
-        animate={{ y: ready ? "0%" : "-100%" }}
-        transition={{ duration: 1, ease: EASE, delay: 0.5 }}
+        initial={{ transform: "translateY(-100%)" }}
+        animate={{ transform: ready ? "translateY(0%)" : "translateY(-100%)" }}
+        transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
       >
         <div
           className={cn(
@@ -151,10 +151,10 @@ export function Nav() {
                 {navItems.map((item, i) => (
                   <li key={item.href} className="overflow-hidden border-b border-rule">
                     <m.div
-                      initial={{ y: "100%" }}
-                      animate={{ y: "0%" }}
-                      exit={{ y: "100%" }}
-                      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 + i * 0.06 }}
+                      initial={{ transform: "translateY(100%)" }}
+                      animate={{ transform: "translateY(0%)" }}
+                      exit={{ transform: "translateY(100%)" }}
+                      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.12 + i * 0.05 }}
                     >
                       <Link
                         href={`/${item.href}`}

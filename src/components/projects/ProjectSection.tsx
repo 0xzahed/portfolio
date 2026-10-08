@@ -14,7 +14,7 @@ import {
 import { useRef, useState, type PointerEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/types";
-import { useFinePointer } from "@/hooks/useMediaQuery";
+import { useFinePointer, useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn, pad } from "@/lib/utils";
 import { ProjectVisual, VisualPlaceholder } from "./visuals";
 
@@ -43,6 +43,10 @@ export function ProjectSection({ project, index, total }: { project: Project; in
   const [hover, setHover] = useState(false);
   // Mount the visual a screen or so before it arrives; until then it's an empty frame.
   const near = useInView(mediaRef, { once: true, margin: "100% 0px" });
+  // Phones: a one-shot CSS reveal (compositor-only) instead of the scroll-linked clip-path,
+  // which repaints the whole visual on every scroll frame.
+  const small = useMediaQuery("(max-width: 767px)");
+  const revealed = useInView(mediaRef, { once: true, margin: "0px 0px -8% 0px" });
   const flip = index % 2 === 1;
   const href = `/work/${project.slug}`;
 
@@ -160,10 +164,13 @@ export function ProjectSection({ project, index, total }: { project: Project; in
             className="block"
           >
             <m.div
-              style={{ clipPath }}
-              className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-rule bg-graphite/60 shadow-[0_0_0_0_rgba(32,183,150,0)] transition-[border-color,box-shadow] duration-700 ease-[var(--ease-out-expo)] group-hover/card:border-signal/40 group-hover/card:shadow-[0_30px_80px_-30px_rgba(32,183,150,0.35)] sm:aspect-[16/10]"
+              style={{ clipPath: small ? "none" : clipPath }}
+              className={cn(
+                "reveal-media relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-rule bg-graphite/60 shadow-[0_0_0_0_rgba(32,183,150,0)] transition-[border-color,box-shadow] duration-700 ease-[var(--ease-out-expo)] group-hover/card:border-signal/40 group-hover/card:shadow-[0_30px_80px_-30px_rgba(32,183,150,0.35)] sm:aspect-[16/10] max-md:transition-[opacity,translate,scale,border-color] max-md:duration-[900ms] max-md:ease-[cubic-bezier(0.22,1,0.36,1)]",
+                revealed ? "max-md:translate-y-0 max-md:scale-100 max-md:opacity-100" : "max-md:translate-y-10 max-md:scale-[0.95] max-md:opacity-0",
+              )}
             >
-              <m.div style={{ scale: innerScale }} className="h-full w-full">
+              <m.div style={{ scale: small ? 1 : innerScale }} className="h-full w-full">
                 <m.div
                   style={{ x: sx, y: sy }}
                   animate={{ scale: hover ? 1.03 : 1 }}

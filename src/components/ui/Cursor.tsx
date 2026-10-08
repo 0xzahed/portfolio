@@ -1,7 +1,7 @@
 "use client";
 
-import { m, useMotionValue, useSpring, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { m, useMotionValue, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { useFinePointer } from "@/hooks/useMediaQuery";
 
 type CursorMode = "default" | "link" | "view" | "image" | "hidden";
@@ -15,15 +15,16 @@ export function Cursor() {
   const reduce = useReducedMotion();
   const enabled = fine && !reduce;
 
+  // Position tracks the pointer 1:1. A spring here always trails the hand and stutters
+  // whenever the page's canvases keep the main thread busy; only size/colour ease.
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const sx = useSpring(x, { stiffness: 600, damping: 45, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 600, damping: 45, mass: 0.4 });
 
   const [mode, setMode] = useState<CursorMode>("default");
   const [label, setLabel] = useState("View");
   const [visible, setVisible] = useState(false);
   const [pressed, setPressed] = useState(false);
+  const shown = useRef(false);
 
   useEffect(() => {
     if (!enabled) return;
@@ -33,7 +34,10 @@ export function Cursor() {
     const onMove = (e: PointerEvent) => {
       x.set(e.clientX);
       y.set(e.clientY);
-      setVisible(true);
+      if (!shown.current) {
+        shown.current = true;
+        setVisible(true);
+      }
     };
     const onOver = (e: PointerEvent) => {
       const target = e.target as HTMLElement | null;
@@ -49,7 +53,10 @@ export function Cursor() {
       }
       setMode("default");
     };
-    const onLeave = () => setVisible(false);
+    const onLeave = () => {
+      shown.current = false;
+      setVisible(false);
+    };
     const onDown = () => setPressed(true);
     const onUp = () => setPressed(false);
 
@@ -76,8 +83,8 @@ export function Cursor() {
   return (
     <m.div
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[90]"
-      style={{ x: sx, y: sy }}
+      className="pointer-events-none fixed left-0 top-0 z-[90] will-change-transform"
+      style={{ x, y }}
     >
       <m.div
         className="flex items-center justify-center rounded-full border"
@@ -90,7 +97,7 @@ export function Cursor() {
           backgroundColor: filled ? (mode === "view" ? "rgba(32,183,150,1)" : "rgba(242,242,238,1)") : "rgba(242,242,238,0)",
           borderColor: filled ? "rgba(242,242,238,0)" : "rgba(242,242,238,0.5)",
         }}
-        transition={{ type: "spring", stiffness: 400, damping: 32, mass: 0.6 }}
+        transition={{ type: "spring", stiffness: 520, damping: 38, mass: 0.5 }}
         initial={false}
       >
         <m.span

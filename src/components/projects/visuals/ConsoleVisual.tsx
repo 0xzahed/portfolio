@@ -76,8 +76,8 @@ export function ConsoleVisual() {
                 <m.li
                   key={r.id}
                   className="grid grid-cols-[1fr_1fr_auto] gap-x-4 border-b border-rule py-2 tabular-nums sm:grid-cols-[1fr_1.2fr_1fr_1fr]"
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={on ? { opacity: 1, x: 0 } : {}}
+                  initial={{ opacity: 0, transform: "translateX(-8px)" }}
+                  animate={on ? { opacity: 1, transform: "translateX(0px)" } : {}}
                   transition={{ delay: 0.5 + i * 0.08, duration: 0.6 }}
                 >
                   <span className="font-mono text-bone">{r.id}</span>

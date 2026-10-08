@@ -24,9 +24,10 @@ export default function Template({ children }: { children: ReactNode }) {
 
   return (
     <m.div
-      initial={animateIn ? { opacity: 0, y: reduce ? 0 : 24 } : false}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      initial={animateIn ? { opacity: 0, transform: reduce ? "none" : "translateY(24px)" } : false}
+      // End on "none" so no transform lingers on the page wrapper (it would break fixed children).
+      animate={{ opacity: 1, transform: "none" }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </m.div>

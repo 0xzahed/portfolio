@@ -93,10 +93,10 @@ export function Engineering() {
                   id={`panel-${group.id}`}
                   role="tabpanel"
                   aria-labelledby={`tab-${group.id}`}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ opacity: 0, transform: "translateY(12px)" }}
+                  animate={{ opacity: 1, transform: "translateY(0px)" }}
+                  exit={{ opacity: 0, transform: "translateY(-12px)" }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <p className="text-xl leading-snug text-bone md:text-2xl">{group.note}</p>
                   <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2">
@@ -104,9 +104,9 @@ export function Engineering() {
                       <m.li
                         key={item}
                         className="flex items-baseline gap-4 border-b border-rule py-4"
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.05 + i * 0.05, duration: 0.5 }}
+                        initial={{ opacity: 0, transform: "translateX(-10px)" }}
+                        animate={{ opacity: 1, transform: "translateX(0px)" }}
+                        transition={{ delay: 0.05 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       >
                         <span className="font-mono text-[0.6875rem] text-smoke tabular-nums">{pad(i + 1)}</span>
                         <span className="text-lg">{item}</span>
