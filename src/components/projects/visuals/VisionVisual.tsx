@@ -84,13 +84,16 @@ export function VisionVisual() {
       <div className="relative flex items-center justify-center overflow-hidden border-rule p-6 sm:border-r">
         <ActivationMap on={on} reduce={reduce} />
         {!reduce && on && (
+          // Slide a full-width track by transform (compositor only); animating `left` re-ran layout every frame.
           <m.div
             aria-hidden
-            className="absolute inset-y-0 w-px bg-mint/70"
-            initial={{ left: "0%" }}
-            animate={{ left: ["0%", "100%"] }}
+            className="pointer-events-none absolute inset-0"
+            initial={{ x: "0%" }}
+            animate={{ x: ["0%", "100%"] }}
             transition={{ duration: 3.2, ease: "easeInOut", repeat: Infinity, repeatDelay: 1.2 }}
-          />
+          >
+            <span className="absolute inset-y-0 left-0 w-px bg-mint/70" />
+          </m.div>
         )}
         <span className="absolute left-4 top-3 font-mono text-[10px] text-ash">activation map · densenet201</span>
       </div>

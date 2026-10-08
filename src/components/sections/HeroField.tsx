@@ -162,8 +162,8 @@ export default function HeroField({ active }: { active: boolean }) {
     let raf = 0;
     let reveal = 0;
     let last = 0;
-    // The field drifts slowly, so 30fps is indistinguishable and halves the cost.
-    const FRAME_MS = 1000 / 30;
+    // The field drifts slowly, so 30fps (20 on phones, where it runs behind every page) is indistinguishable.
+    const FRAME_MS = 1000 / (small ? 20 : 30);
     const t0 = performance.now();
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);

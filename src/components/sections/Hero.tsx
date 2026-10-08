@@ -142,7 +142,7 @@ export function Hero() {
                   e.preventDefault();
                   scrollTo("#contact");
                 }}
-                className="inline-flex h-12 items-center border border-rule-strong bg-ink/80 px-6 text-sm text-ash backdrop-blur-sm transition-colors duration-300 hover:border-bone hover:text-bone"
+                className="inline-flex h-12 items-center border border-rule-strong bg-ink/85 px-6 text-sm text-ash md:backdrop-blur-sm transition-colors duration-300 hover:border-bone hover:text-bone"
               >
                 Let&apos;s work together
               </a>

@@ -3,12 +3,16 @@
 import { m, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useRef } from "react";
 import { philosophy } from "@/data/portfolio";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 function Line({ text, progress, index, last }: { text: string; progress: MotionValue<number>; index: number; last: boolean }) {
   const reduce = useReducedMotion();
+  // Re-flowing display type on every scroll frame is too heavy for phones; they get the slide only.
+  const small = useMediaQuery("(max-width: 767px)");
+  const still = reduce || small;
   const start = 0.08 + index * 0.16;
   const y = useTransform(progress, [start, start + 0.16], reduce ? ["0%", "0%"] : ["105%", "0%"]);
-  const wdth = useTransform(progress, [start, start + 0.3], reduce ? [100, 100] : [62, last ? 125 : 100]);
+  const wdth = useTransform(progress, [start, start + 0.3], still ? [100, 100] : [62, last ? 125 : 100]);
   // The last word does what it says: it fades almost to nothing.
   const opacity = useTransform(progress, last ? [0.62, 0.86] : [0, 1], last && !reduce ? [1, 0.07] : [1, 1]);
 

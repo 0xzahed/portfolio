@@ -23,8 +23,11 @@ type Props = {
 /**
  * A cut-out photo redrawn as an ordered-dither grid. Each cell takes the average
  * colour of the photo beneath it and is lit when its (contrast-boosted) luminance
- * clears the Bayer threshold; a diagonal shimmer band sweeps the thresholds so the
- * figure keeps catching light. Unlit cells stay as faint dots to hold the silhouette.
+ * clears the Bayer threshold. Unlit cells stay as faint dots to hold the silhouette.
+ *
+ * The grid is rendered once into an offscreen canvas; each frame only copies it and
+ * sweeps a soft teal band over the lit pixels. Redrawing thousands of cells per frame
+ * kept a mid-range phone's main thread ~70% busy.
  */
 export function DitherPortrait({ src, cellSize = 9, contrast = 158, shimmer = 60, active = true, className }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -40,16 +43,10 @@ export function DitherPortrait({ src, cellSize = 9, contrast = 158, shimmer = 60
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const k = contrast / 100;
-    // Threshold drift is kept tiny: big shifts toggle cells on/off and read as flicker.
-    const amp = (shimmer / 100) * 0.05;
-    let cols = 0;
-    let rows = 0;
-    let cell = cellSize;
-    let data: Uint8ClampedArray | null = null;
-    let detail: Float32Array | null = null;
-    let lo = 0;
-    let hi = 1;
+    const glow = (shimmer / 100) * 0.5;
     const lum = (r: number, g: number, b: number) => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    const base = document.createElement("canvas");
+    let ready = false;
     let raf = 0;
     let last = 0;
     let visible = true;
@@ -66,37 +63,44 @@ export function DitherPortrait({ src, cellSize = 9, contrast = 158, shimmer = 60
       const h = canvas.clientHeight;
       if (!w || !h) return;
       const dpr = Math.min(2, window.devicePixelRatio || 1);
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cols = Math.floor(w / cellSize);
-      rows = Math.floor(h / cellSize);
-      cell = w / cols;
+      canvas.width = base.width = Math.round(w * dpr);
+      canvas.height = base.height = Math.round(h * dpr);
+      const cols = Math.floor(w / cellSize);
+      const rows = Math.floor(h / cellSize);
+      const cell = w / cols;
       // Downscaling to one pixel per cell averages each cell's colour for us.
       const off = document.createElement("canvas");
       off.width = cols;
       off.height = rows;
       const octx = off.getContext("2d", { willReadFrequently: true });
-      if (!octx) return;
+      const bctx = base.getContext("2d");
+      if (!octx || !bctx) return;
       octx.imageSmoothingQuality = "high";
       // object-contain, anchored to the bottom (matches the static layout).
       const s = Math.min(cols / img.naturalWidth, rows / img.naturalHeight);
       const dw = img.naturalWidth * s;
       const dh = img.naturalHeight * s;
       octx.drawImage(img, (cols - dw) / 2, rows - dh, dw, dh);
-      data = octx.getImageData(0, 0, cols, rows).data;
+      const data = octx.getImageData(0, 0, cols, rows).data;
       // Auto-levels over the figure only, so mid-tone skin spans the full range.
       const ls: number[] = [];
       for (let i = 0; i < data.length; i += 4) if (data[i + 3] > 90) ls.push(lum(data[i], data[i + 1], data[i + 2]));
       ls.sort((p, q) => p - q);
-      lo = ls[Math.floor(ls.length * 0.02)] ?? 0;
-      hi = ls[Math.floor(ls.length * 0.98)] ?? 1;
+      const lo = ls[Math.floor(ls.length * 0.02)] ?? 0;
+      const hi = ls[Math.floor(ls.length * 0.98)] ?? 1;
       // Local contrast: each cell against its 5×5 neighbourhood, so features read at this resolution.
       const L = new Float32Array(cols * rows);
       for (let i = 0; i < L.length; i++) L[i] = lum(data[i * 4], data[i * 4 + 1], data[i * 4 + 2]);
-      detail = new Float32Array(cols * rows);
+
+      bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      bctx.clearRect(0, 0, w, h);
+      const size = cell - Math.max(0.8, cell * 0.16);
+      const dot = Math.max(1, cell * 0.16);
       for (let y = 0; y < rows; y++)
         for (let x = 0; x < cols; x++) {
+          const i = (y * cols + x) * 4;
+          const a = data[i + 3] / 255;
+          if (a < 0.35) continue;
           let sum = 0;
           let n = 0;
           for (let dy = -2; dy <= 2; dy++)
@@ -107,56 +111,55 @@ export function DitherPortrait({ src, cellSize = 9, contrast = 158, shimmer = 60
               sum += L[yy * cols + xx];
               n++;
             }
-          detail[y * cols + x] = n ? L[y * cols + x] - sum / n : 0;
-        }
-      draw(performance.now());
-    };
-
-    const draw = (now: number) => {
-      if (!data) return;
-      const t = (now - t0) / 1000;
-      const w = canvas.clientWidth;
-      const h = canvas.clientHeight;
-      ctx.clearRect(0, 0, w, h);
-      const size = cell - Math.max(0.8, cell * 0.16);
-      const dot = Math.max(1, cell * 0.16);
-      for (let y = 0; y < rows; y++) {
-        // Reveal sweeps bottom → top.
-        const rowGate = reveal * 1.25 - (1 - y / rows) * 0.25;
-        if (rowGate <= 0) continue;
-        const fade = Math.min(1, rowGate * 4);
-        for (let x = 0; x < cols; x++) {
-          const i = (y * cols + x) * 4;
-          const a = data[i + 3] / 255;
-          if (a < 0.35) continue;
+          const detail = n ? L[y * cols + x] - sum / n : 0;
           const r = data[i];
           const g = data[i + 1];
           const b = data[i + 2];
-          let l = (lum(r, g, b) - lo) / Math.max(0.05, hi - lo);
-          l = (l - 0.5) * k + 0.5 + (detail ? detail[y * cols + x] * EDGE : 0);
+          let l = (L[y * cols + x] - lo) / Math.max(0.05, hi - lo);
+          l = (l - 0.5) * k + 0.5 + detail * EDGE;
           // Floor keeps the dark suit as a sparse texture instead of dropping it.
           l = FLOOR + (1 - FLOOR) * Math.max(0, l);
-          const band = reduce ? 0 : Math.sin((x * 0.9 + y * 0.55) * 0.1 - t * 0.9);
-          const glint = band > 0 ? band * band * band : 0;
-          l += band * amp;
           const thr = (BAYER[(y & 3) * 4 + (x & 3)] + 0.5) / 16;
           const px = x * cell;
           const py = y * cell;
           if (l > thr) {
-            // Lift the cell's own colour toward bone; the shimmer crest glints teal.
-            const m = 0.32 + glint * 0.2;
-            const gl = glint * 0.6;
-            const tr = 242 * (1 - gl) + 122 * gl;
-            const tg = 242 * (1 - gl) + 231 * gl;
-            const tb = 238 * (1 - gl) + 209 * gl;
-            ctx.fillStyle = `rgba(${Math.round(r + (tr - r) * m)},${Math.round(g + (tg - g) * m)},${Math.round(b + (tb - b) * m)},${(a * fade).toFixed(3)})`;
-            ctx.fillRect(px + (cell - size) / 2, py + (cell - size) / 2, size, size);
+            // Lift the cell's own colour toward bone.
+            const m = 0.32;
+            bctx.fillStyle = `rgba(${Math.round(r + (242 - r) * m)},${Math.round(g + (242 - g) * m)},${Math.round(b + (238 - b) * m)},${a.toFixed(3)})`;
+            bctx.fillRect(px + (cell - size) / 2, py + (cell - size) / 2, size, size);
           } else {
-            ctx.fillStyle = `rgba(242,242,238,${(0.3 * a * fade + glint * 0.08 * fade).toFixed(3)})`;
-            ctx.fillRect(px + cell / 2 - dot / 2, py + cell / 2 - dot / 2, dot, dot);
+            bctx.fillStyle = `rgba(242,242,238,${(0.3 * a).toFixed(3)})`;
+            bctx.fillRect(px + cell / 2 - dot / 2, py + cell / 2 - dot / 2, dot, dot);
           }
         }
-      }
+      ready = true;
+      draw(performance.now());
+    };
+
+    const draw = (now: number) => {
+      if (!ready) return;
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.globalCompositeOperation = "source-over";
+      ctx.clearRect(0, 0, W, H);
+      // Reveal: the figure rises in from the bottom.
+      const e = 1 - Math.pow(1 - reveal, 3);
+      const top = H * (1 - e);
+      if (e <= 0) return;
+      ctx.drawImage(base, 0, top, W, H - top, 0, top, W, H - top);
+      if (reduce || glow <= 0) return;
+      // Shimmer: one soft diagonal band crossing the lit pixels every ~7s.
+      const t = (now - t0) / 1000;
+      const p = ((t / 7) % 1) * 1.6 - 0.3;
+      const band = ctx.createLinearGradient(0, 0, W * 0.85, H * 0.52);
+      const at = (v: number) => Math.min(1, Math.max(0, v));
+      band.addColorStop(at(p - 0.14), "rgba(122,231,209,0)");
+      band.addColorStop(at(p), `rgba(122,231,209,${glow})`);
+      band.addColorStop(at(p + 0.14), "rgba(122,231,209,0)");
+      ctx.globalCompositeOperation = "source-atop";
+      ctx.fillStyle = band;
+      ctx.fillRect(0, top, W, H - top);
     };
 
     // Shimmer is slow, so 30fps is plenty; paused off-screen and in hidden tabs.
@@ -175,9 +178,7 @@ export function DitherPortrait({ src, cellSize = 9, contrast = 158, shimmer = 60
     ro.observe(canvas);
     const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
     io.observe(canvas);
-    if (reduce) {
-      // One still frame, redrawn only on resize.
-    } else raf = requestAnimationFrame(loop);
+    if (!reduce) raf = requestAnimationFrame(loop);
 
     return () => {
       cancelAnimationFrame(raf);
