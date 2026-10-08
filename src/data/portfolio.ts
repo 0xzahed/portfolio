@@ -19,6 +19,8 @@ import type {
 export const person = {
   name: "Zahed", // REPLACE with your full name if you want it shown
   shortName: "Zahed",
+  /** Online handle — unique, so it's the easiest thing for people to search for. */
+  handle: "0xzahed",
   role: "Software Engineer",
   roles: ["Software engineer", "Builder", "Problem solver"],
   location: "Dhaka, Bangladesh",
@@ -30,29 +32,42 @@ export const person = {
     "I design and engineer scalable digital products — from the database schema to the last frame of an interface.",
 };
 
-export const socials: SocialLink[] = [
+const allSocials: SocialLink[] = [
   { label: "GitHub", handle: "@0xzahed", href: "https://github.com/0xzahed" },
   { label: "LinkedIn", handle: "in/your-username", href: "https://www.linkedin.com/in/your-username" }, // REPLACE
   { label: "X", handle: "@your-username", href: "https://x.com/your-username" }, // REPLACE
 ];
 
+/** Placeholder profiles are left out everywhere (UI, structured data) until they're real. */
+export const socials = allSocials.filter((s) => !s.href.includes("your-username"));
+
 /* ── SEO ──────────────────────────────────────────────────── */
 
 export const site = {
-  url: "https://your-domain.com", // REPLACE — used for canonical URLs, sitemap and Open Graph
-  title: `${person.name} — Software Engineer`,
+  // The one canonical address: canonical URLs, sitemap, robots and Open Graph all use it.
+  url: "https://0xzahed.vercel.app",
+  // ~60 chars: shown as the blue link in search results.
+  title: `${person.name} (${person.handle}) — Software Engineer & Full-Stack Developer`,
+  // ~155 chars: the grey snippet under it.
   description:
-    "Software engineer building scalable digital products, modern web applications, and intelligent systems.",
+    "Zahed (0xzahed) is a software engineer in Dhaka, Bangladesh building SaaS platforms, web apps and APIs with Next.js, React, TypeScript, Django and PostgreSQL.",
   locale: "en_US",
-  twitterHandle: "@your-username", // REPLACE
+  twitterHandle: "", // REPLACE with "@handle" once you have a real X account
   keywords: [
-    "software engineer",
+    "Zahed",
+    "0xzahed",
+    "Zahed software engineer",
+    "software engineer Bangladesh",
+    "software engineer Dhaka",
     "full-stack developer",
-    "Next.js",
-    "Django",
-    "SaaS",
-    "Bangladesh",
+    "Next.js developer",
+    "React developer",
+    "Django developer",
+    "SaaS developer",
+    "web developer Bangladesh",
   ],
+  /** Topics for the Person schema: what you want Google to associate you with. */
+  expertise: ["Software Engineering", "Full-Stack Web Development", "Next.js", "React", "TypeScript", "Django", "PostgreSQL", "SaaS", "REST APIs", "Machine Learning"],
 };
 
 /* ── About ────────────────────────────────────────────────── */

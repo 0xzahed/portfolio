@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { projects, person } from "@/data/portfolio";
+import { projects, person, site } from "@/data/portfolio";
 import { ProjectMedia } from "@/components/projects/ProjectSection";
 import { RevealLines, Fade } from "@/components/ui/Reveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
@@ -18,11 +18,27 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   if (!project) return {};
+  const url = `/work/${project.slug}`;
+  // Search snippets cut off around 155–160 characters; only add the byline if it fits.
+  const byline = ` By ${person.name} (${person.handle}).`;
+  const description = project.summary.length + byline.length <= 158 ? project.summary + byline : project.summary;
+  // Setting openGraph here replaces the root object, so the shared preview image is restated.
+  const image = { url: "/opengraph-image", width: 1200, height: 630, alt: `${person.name} — ${person.role}` };
   return {
-    title: `${project.title} — ${project.category}`,
-    description: project.summary,
-    alternates: { canonical: `/work/${project.slug}` },
-    openGraph: { title: `${project.title} — ${person.name}`, description: project.summary, type: "article" },
+    title: `${project.title} — ${project.category} case study`,
+    description,
+    keywords: [project.title, project.category, ...project.technologies, person.name, person.handle],
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${project.title} — ${person.name} (${person.handle})`,
+      description,
+      type: "article",
+      url,
+      siteName: `${person.name} (${person.handle})`,
+      authors: [person.name],
+      images: [image],
+    },
+    twitter: { card: "summary_large_image", title: `${project.title} — ${person.name} (${person.handle})`, description, images: [image.url] },
   };
 }
 
@@ -34,8 +50,38 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
   const next = projects[(index + 1) % projects.length];
   const cs = project.caseStudy;
 
+  const url = `${site.url}/work/${project.slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CreativeWork",
+        "@id": `${url}#work`,
+        name: project.title,
+        headline: `${project.title} — ${project.category}`,
+        description: project.summary,
+        url,
+        genre: project.category,
+        dateCreated: project.year,
+        keywords: project.technologies.join(", "),
+        author: { "@id": `${site.url}/#person` },
+        creator: { "@type": "Person", "@id": `${site.url}/#person`, name: person.name },
+        ...(project.liveUrl ? { sameAs: project.liveUrl } : {}),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: person.name, item: site.url },
+          { "@type": "ListItem", position: 2, name: "Work", item: `${site.url}/#work` },
+          { "@type": "ListItem", position: 3, name: project.title, item: url },
+        ],
+      },
+    ],
+  };
+
   return (
     <article className="pt-[calc(var(--nav-h)+3rem)]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="shell">
         <Link href="/#work" className="group inline-flex items-center gap-2 text-sm text-ash hover:text-bone">
           <ArrowLeft aria-hidden className="size-4 transition-transform duration-500 group-hover:-translate-x-1" strokeWidth={1.5} />

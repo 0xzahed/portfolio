@@ -64,15 +64,14 @@ export function Hero() {
           animate={{ opacity: ready ? 1 : 0 }}
           transition={{ duration: 0.8, delay: 0.05 }}
         >
-          {person.roles.join(" · ")}
+          {person.name} — {person.roles.join(" · ")}
         </m.p>
 
         <m.h1 id="hero-title" style={{ y: headY }} className="display relative z-10 text-ash text-[clamp(2.5rem,min(13.8vw,19svh),17rem)]">
-          <span className="sr-only">{HEADLINE.join(" ")}</span>
+          <span className="sr-only">{`${person.name}, ${person.role.toLowerCase()} — `}</span>
           {HEADLINE.map((word, i) => (
             <span
               key={word}
-              aria-hidden
               className={`block overflow-hidden pb-[0.04em] ${i === 1 ? "md:pl-[14vw]" : ""}`}
             >
               <m.span

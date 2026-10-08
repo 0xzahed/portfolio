@@ -13,6 +13,7 @@ import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { person, site, socials } from "@/data/portfolio";
+import portrait from "@/assets/zahed-portrait.webp";
 
 // Self-hosted variable fonts (SIL OFL). Archivo carries both weight and width axes.
 const archivo = localFont({
@@ -33,22 +34,38 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: site.title, template: `%s — ${person.name}` },
+  title: { default: site.title, template: `%s — ${person.name} (${person.handle})` },
   description: site.description,
+  applicationName: `${person.name} — Portfolio`,
   keywords: site.keywords,
   authors: [{ name: person.name, url: site.url }],
   creator: person.name,
+  publisher: person.name,
+  category: "technology",
   alternates: { canonical: "/" },
   openGraph: {
-    type: "website",
+    type: "profile",
     url: site.url,
-    siteName: person.name,
+    siteName: `${person.name} (${person.handle})`,
     title: site.title,
     description: site.description,
     locale: site.locale,
+    firstName: person.name,
+    username: person.handle,
   },
-  twitter: { card: "summary_large_image", title: site.title, description: site.description, creator: site.twitterHandle },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+    ...(site.twitterHandle ? { creator: site.twitterHandle } : {}),
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  },
+  // Google Search Console: set GOOGLE_SITE_VERIFICATION on Vercel to the token it gives you.
+  ...(process.env.GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } } : {}),
 };
 
 export const viewport: Viewport = {
@@ -56,14 +73,42 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
+// Structured data: tells search engines who this site is about, in their own vocabulary.
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: person.name,
-  jobTitle: person.role,
-  url: site.url,
-  address: { "@type": "PostalAddress", addressLocality: "Dhaka", addressCountry: "BD" },
-  sameAs: socials.map((s) => s.href),
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${site.url}/#person`,
+      name: person.name,
+      alternateName: person.handle,
+      jobTitle: person.role,
+      description: site.description,
+      url: site.url,
+      image: `${site.url}${portrait.src}`,
+      address: { "@type": "PostalAddress", addressLocality: "Dhaka", addressCountry: "BD" },
+      knowsAbout: site.expertise,
+      sameAs: socials.map((s) => s.href),
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      url: site.url,
+      name: `${person.name} (${person.handle})`,
+      description: site.description,
+      inLanguage: "en",
+      author: { "@id": `${site.url}/#person` },
+      publisher: { "@id": `${site.url}/#person` },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${site.url}/#profile`,
+      url: site.url,
+      name: site.title,
+      isPartOf: { "@id": `${site.url}/#website` },
+      mainEntity: { "@id": `${site.url}/#person` },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
