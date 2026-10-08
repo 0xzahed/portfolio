@@ -67,7 +67,7 @@ export function Hero() {
           {person.roles.join(" · ")}
         </m.p>
 
-        <m.h1 id="hero-title" style={{ y: headY }} className="display relative z-10 text-ash text-[clamp(3.4rem,min(12.6vw,19svh),17rem)]">
+        <m.h1 id="hero-title" style={{ y: headY }} className="display relative z-10 text-ash text-[clamp(2.5rem,min(13.8vw,19svh),17rem)]">
           <span className="sr-only">{HEADLINE.join(" ")}</span>
           {HEADLINE.map((word, i) => (
             <span
