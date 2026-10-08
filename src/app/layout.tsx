@@ -7,6 +7,7 @@ import { MotionProvider } from "@/components/providers/MotionProvider";
 import { Preloader } from "@/components/ui/Preloader";
 import { Cursor } from "@/components/ui/Cursor";
 import { Grain } from "@/components/ui/Grain";
+import { RevealObserver } from "@/components/ui/RevealObserver";
 import { SiteField } from "@/components/ui/SiteField";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { Nav } from "@/components/layout/Nav";
@@ -74,7 +75,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body style={{ backgroundColor: "#050505", color: "#f2f2ee" }}>
         <noscript>
-          <style>{`#preloader{display:none!important}.js-reveal{opacity:1!important;transform:none!important}.reveal-media{opacity:1!important;translate:none!important;scale:none!important}`}</style>
+          <style>{`#preloader{display:none!important}.js-reveal{opacity:1!important;transform:none!important}.reveal-media,[data-reveal]{opacity:1!important;translate:none!important;scale:none!important}`}</style>
         </noscript>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Footer />
               <Cursor />
               <Grain />
+              <RevealObserver />
             </SmoothScroll>
           </MotionProvider>
         </IntroProvider>

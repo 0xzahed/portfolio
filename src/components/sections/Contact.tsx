@@ -5,6 +5,7 @@ import { ArrowRight, Check, Copy } from "lucide-react";
 import { contact, person, socials } from "@/data/portfolio";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { RevealLines } from "@/components/ui/Reveal";
+import { reveal } from "@/lib/reveal";
 
 export function Contact() {
   const [copied, setCopied] = useState(false);
@@ -29,8 +30,8 @@ export function Contact() {
 
         <div className="mt-16 grid grid-cols-1 gap-12 md:mt-24 md:grid-cols-12 md:gap-x-6">
           <div className="md:col-span-5">
-            <p className="max-w-[30ch] text-xl leading-snug md:text-2xl">{contact.subtext}</p>
-            <div className="mt-10">
+            <p {...reveal(0)} className="max-w-[30ch] text-xl leading-snug md:text-2xl">{contact.subtext}</p>
+            <div {...reveal(1, "scale")} className="mt-10">
               <Magnetic strength={0.25}>
                 <a
                   href={`mailto:${person.email}?subject=${encodeURIComponent("Project enquiry")}`}
@@ -45,7 +46,7 @@ export function Contact() {
 
           <div className="md:col-span-6 md:col-start-7">
             <dl>
-              <div className="flex items-center justify-between gap-4 border-t border-rule py-5">
+              <div {...reveal(0, "left")} className="flex items-center justify-between gap-4 border-t border-rule py-5">
                 <dt className="text-sm text-ash">Email</dt>
                 <dd className="flex items-center gap-3">
                   <a href={`mailto:${person.email}`} className="link-line text-lg md:text-xl">
@@ -62,8 +63,8 @@ export function Contact() {
                   <span role="status" className="sr-only">{copied ? "Email address copied to clipboard" : ""}</span>
                 </dd>
               </div>
-              {socials.map((s) => (
-                <div key={s.label} className="border-t border-rule last:border-b">
+              {socials.map((s, k) => (
+                <div key={s.label} {...reveal(1 + k, "left")} className="border-t border-rule last:border-b">
                   <dt className="sr-only">{s.label}</dt>
                   <dd>
                     <Magnetic strength={0.08} className="block">

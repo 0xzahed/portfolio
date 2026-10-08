@@ -4,6 +4,7 @@ import { AnimatePresence, m, useInView, useReducedMotion, useScroll, useTransfor
 import { useEffect, useRef, useState } from "react";
 import { about } from "@/data/portfolio";
 import { pad } from "@/lib/utils";
+import { reveal } from "@/lib/reveal";
 
 /** A word whose brightness follows scroll position — the statement "reads itself" as you scroll. */
 function ScrollWord({ word, range, progress }: { word: string; range: [number, number]; progress: MotionValue<number> }) {
@@ -117,15 +118,15 @@ export function About() {
 
         <div className="mt-20 grid grid-cols-1 gap-16 md:mt-32 md:grid-cols-12 md:gap-x-6">
           <div className="md:col-span-6 lg:col-span-5">
-            {about.paragraphs.map((p) => (
-              <p key={p.slice(0, 16)} className="mb-6 max-w-[60ch] text-lg leading-relaxed text-bone/85">
+            {about.paragraphs.map((p, k) => (
+              <p key={p.slice(0, 16)} {...reveal(k)} className="mb-6 max-w-[60ch] text-lg leading-relaxed text-bone/85">
                 {p}
               </p>
             ))}
             <h3 className="eyebrow mt-14 border-b border-rule pb-4">What I build</h3>
             <ul className="mt-2">
-              {about.builds.map((b) => (
-                <li key={b} className="border-b border-rule py-3 text-[0.9375rem] text-bone/90">
+              {about.builds.map((b, k) => (
+                <li key={b} {...reveal(k, "left")} className="border-b border-rule py-3 text-[0.9375rem] text-bone/90">
                   {b}
                 </li>
               ))}

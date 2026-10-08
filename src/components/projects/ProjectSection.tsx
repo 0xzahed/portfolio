@@ -17,6 +17,7 @@ import type { Project } from "@/lib/types";
 import { useFinePointer, useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn, pad } from "@/lib/utils";
 import { ProjectVisual, VisualPlaceholder } from "./visuals";
+import { reveal } from "@/lib/reveal";
 
 export function ProjectMedia({ project, defer = false }: { project: Project; defer?: boolean }) {
   if (defer) return <VisualPlaceholder />;
@@ -79,7 +80,7 @@ export function ProjectSection({ project, index, total }: { project: Project; in
       aria-labelledby={`project-${project.slug}`}
       className="group/card relative border-t border-rule pb-20 pt-6 md:pb-28"
     >
-      <div className="grid grid-cols-2 gap-x-6 text-[0.75rem] uppercase tracking-[0.12em] text-ash md:grid-cols-12">
+      <div {...reveal(0)} className="grid grid-cols-2 gap-x-6 text-[0.75rem] uppercase tracking-[0.12em] text-ash md:grid-cols-12">
         <p className="flex items-center gap-3 md:col-span-3">
           <span>Project</span>
           <span className="relative inline-block h-[1.4em] overflow-hidden font-mono leading-[1.4em] tabular-nums text-bone">
@@ -98,7 +99,7 @@ export function ProjectSection({ project, index, total }: { project: Project; in
         <p className="hidden text-right md:col-span-3 md:col-start-10 md:block">{project.year}</p>
       </div>
 
-      <h3 id={`project-${project.slug}`} className="mt-6 md:mt-8">
+      <h3 id={`project-${project.slug}`} {...reveal(1)} className="mt-6 md:mt-8">
         <Link
           href={href}
           className={cn("display block text-[clamp(2.25rem,7vw,7.5rem)] transition-[font-variation-settings,color] duration-1000 ease-[var(--ease-out-expo)] hover:text-mint", flip && "md:text-right")}
@@ -117,20 +118,20 @@ export function ProjectSection({ project, index, total }: { project: Project; in
             flip ? "md:order-2 md:col-start-9" : "md:order-1",
           )}
         >
-          <div>
+          <div {...reveal(2)}>
             <p className="max-w-[44ch] text-[0.9375rem] leading-relaxed text-bone/90 md:text-base">{project.summary}</p>
             <p className="mt-4 text-[0.8125rem] text-ash">{project.role}</p>
           </div>
           <div>
             <h4 className="sr-only">Technology</h4>
-            <ul className="flex flex-wrap gap-1.5 border-t border-rule pt-5 font-mono text-[0.625rem] uppercase tracking-[0.06em] text-ash">
+            <ul {...reveal(3)} className="flex flex-wrap gap-1.5 border-t border-rule pt-5 font-mono text-[0.625rem] uppercase tracking-[0.06em] text-ash">
               {project.technologies.map((t) => (
                 <li key={t} className="rounded-full border border-rule px-2.5 py-1 transition-colors duration-300 group-hover/card:border-rule-strong group-hover/card:text-bone/80">
                   {t}
                 </li>
               ))}
             </ul>
-            <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[0.8125rem]">
+            <div {...reveal(4)} className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[0.8125rem]">
               <Link href={href} className="group inline-flex items-center gap-2 text-bone">
                 <span className="link-line">View project</span>
                 <ArrowUpRight aria-hidden className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={1.5} />

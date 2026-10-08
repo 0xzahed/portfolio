@@ -5,6 +5,7 @@ import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ActivitySkyline } from "@/components/sections/ActivitySkyline";
 import ContributionSkyline from "@/components/ui/contribution-skyline";
 import type { CSSProperties } from "react";
+import { reveal } from "@/lib/reveal";
 
 // The skyline reads shadcn-style colour tokens; map them onto the site palette.
 const SKYLINE_THEME = {
@@ -47,9 +48,9 @@ function Grid({ days }: { days: ContributionDay[] | null }) {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value, i = 0 }: { label: string; value: string; i?: number }) {
   return (
-    <div className="border-t border-rule pt-4">
+    <div {...reveal(i)} className="border-t border-rule pt-4">
       <dt className="text-sm text-ash">{label}</dt>
       <dd className="display mt-3 text-[clamp(2.5rem,5vw,4.5rem)] tabular-nums [--wdth:70]">{value}</dd>
     </div>
@@ -109,7 +110,7 @@ export async function Activity() {
         <div className="mt-20 grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-x-6">
           <dl className="grid grid-cols-2 gap-x-6 gap-y-10 md:col-span-5">
             <Stat label="Contributions" value={data?.totalContributions != null ? data.totalContributions.toLocaleString("en") : "—"} />
-            <Stat label="Public repositories" value={data ? String(data.publicRepos) : "—"} />
+            <Stat i={1} label="Public repositories" value={data ? String(data.publicRepos) : "—"} />
           </dl>
 
           <div className="md:col-span-6 md:col-start-7">
@@ -120,8 +121,8 @@ export async function Activity() {
               {(data && data.languages.length
                 ? data.languages.map((l) => [l.name, l.share] as const)
                 : freq.map(([n, c]) => [n, c / maxFreq] as const)
-              ).map(([name, share]) => (
-                <li key={name} className="grid grid-cols-[8rem_1fr] items-center gap-4 border-b border-rule py-3 text-[0.9375rem]">
+              ).map(([name, share], k) => (
+                <li key={name} {...reveal(k, "left")} className="grid grid-cols-[8rem_1fr] items-center gap-4 border-b border-rule py-3 text-[0.9375rem]">
                   <span>{name}</span>
                   <span className="h-px w-full bg-rule">
                     <span className="block h-px bg-signal" style={{ width: `${Math.round(share * 100)}%` }} />
@@ -136,8 +137,8 @@ export async function Activity() {
           <div className="mt-20">
             <h3 className="border-b border-rule pb-4 text-sm text-ash">Recently pushed</h3>
             <ul className="grid grid-cols-1 md:grid-cols-2">
-              {data.recent.map((r) => (
-                <li key={r.name} className="border-b border-rule py-5 md:odd:pr-6 md:even:border-l md:even:pl-6">
+              {data.recent.map((r, k) => (
+                <li key={r.name} {...reveal(k)} className="border-b border-rule py-5 md:odd:pr-6 md:even:border-l md:even:pl-6">
                   <ArrowLink href={r.url} className="text-lg">{r.name}</ArrowLink>
                   {r.description && <p className="mt-2 max-w-[52ch] text-sm text-ash">{r.description}</p>}
                   <p className="mt-3 font-mono text-[0.6875rem] uppercase text-smoke">

@@ -5,6 +5,8 @@ import { useRef } from "react";
 import { education, experience } from "@/data/portfolio";
 import { RevealLines } from "@/components/ui/Reveal";
 import type { ExperienceItem } from "@/lib/types";
+import { reveal } from "@/lib/reveal";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 function Entry({ item }: { item: ExperienceItem }) {
   const ref = useRef<HTMLLIElement>(null);
@@ -12,7 +14,9 @@ function Entry({ item }: { item: ExperienceItem }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 80%", "end 30%"] });
   // Only the large display type dims; body copy keeps full contrast.
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], reduce ? [1, 1, 1, 1] : [0.38, 1, 1, 0.38]);
-  const wdth = useTransform(scrollYProgress, [0, 0.35], reduce ? [100, 100] : [62, 100]);
+  // Phones skip the width morph: re-flowing display type every scroll frame is too heavy there.
+  const small = useMediaQuery("(max-width: 767px)");
+  const wdth = useTransform(scrollYProgress, [0, 0.35], reduce || small ? [100, 100] : [62, 100]);
 
   return (
     <li ref={ref} className="relative grid grid-cols-1 gap-6 border-t border-rule py-12 md:grid-cols-12 md:gap-x-6 md:py-16">
@@ -26,11 +30,11 @@ function Entry({ item }: { item: ExperienceItem }) {
         <m.h3 style={{ opacity }} className="display text-[clamp(1.5rem,2.8vw,2.6rem)] [--wdth:110]">
           {item.role}
         </m.h3>
-        <p className="mt-2 text-ash">{item.org}</p>
-        <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-bone/85">{item.summary}</p>
+        <p {...reveal(0)} className="mt-2 text-ash">{item.org}</p>
+        <p {...reveal(1)} className="mt-6 max-w-[52ch] text-lg leading-relaxed text-bone/85">{item.summary}</p>
         <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-ash">
-          {item.stack.map((s) => (
-            <li key={s}>{s}</li>
+          {item.stack.map((s, k) => (
+            <li key={s} {...reveal(2 + k, "scale")}>{s}</li>
           ))}
         </ul>
       </div>

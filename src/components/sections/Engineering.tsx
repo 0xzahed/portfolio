@@ -7,6 +7,7 @@ import { projects, skills } from "@/data/portfolio";
 import { RevealLines } from "@/components/ui/Reveal";
 import { useFinePointer } from "@/hooks/useMediaQuery";
 import { cn, pad } from "@/lib/utils";
+import { reveal } from "@/lib/reveal";
 
 function projectsFor(groupId: string) {
   const group = skills.find((g) => g.id === groupId)!;
@@ -66,6 +67,7 @@ export function Engineering() {
                   onClick={() => setActive(g.id)}
                   onPointerEnter={() => fine && setActive(g.id)}
                   onKeyDown={(e) => onKey(e, i)}
+                  {...reveal(i, "left")}
                   className="group flex w-full items-baseline justify-between gap-4 border-b border-rule py-4 text-left first:border-t md:py-5"
                 >
                   <span
