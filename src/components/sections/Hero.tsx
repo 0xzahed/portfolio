@@ -75,7 +75,7 @@ export function Hero() {
               className={`block overflow-hidden pb-[0.04em] ${i === 1 ? "md:pl-[14vw]" : ""}`}
             >
               <m.span
-                className="js-reveal wdth block origin-left"
+                className="js-reveal wdth block origin-left bg-gradient-to-b from-bone via-[#C0C8CA] to-signal bg-clip-text text-transparent"
                 initial={{ transform: "translateY(105%)", ["--wdth" as string]: startW ?? (i === 2 ? 100 : 112) }}
                 animate={
                   ready

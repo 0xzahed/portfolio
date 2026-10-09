@@ -45,14 +45,15 @@
   }
 
   html {
-    background: var(--color-ink);
+    background-color: var(--color-ink);
+    background-image: linear-gradient(180deg, #2e4156 0%, #1a2d42 45%, #0f1c2a 100%);
+    background-attachment: fixed;
     color: var(--color-bone);
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
 
   body {
-    background: var(--color-ink);
     font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.6;
