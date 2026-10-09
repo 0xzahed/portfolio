@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
+import { AboutStory } from "@/components/sections/AboutStory";
+import { Process } from "@/components/sections/Process";
 import { SelectedWork } from "@/components/sections/SelectedWork";
 import { Engineering } from "@/components/sections/Engineering";
 import { Experience } from "@/components/sections/Experience";
@@ -21,6 +23,12 @@ export default function Home() {
       <Hero />
       <Suspense>
         <About />
+      </Suspense>
+      <Suspense>
+        <AboutStory />
+      </Suspense>
+      <Suspense>
+        <Process />
       </Suspense>
       <Suspense>
         <SelectedWork />

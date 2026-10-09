@@ -12,9 +12,7 @@ import type { ContributionDay } from "@/lib/github";
  */
 export function ActivitySkyline({ days }: { days: ContributionDay[] }) {
   return (
-    // Full-bleed on phones: the year is 53 columns wide and needs every pixel.
     <div
-      className="-mx-[var(--gutter)] sm:mx-0"
       style={
         {
           "--color-background": "var(--color-carbon)",
@@ -29,7 +27,6 @@ export function ActivitySkyline({ days }: { days: ContributionDay[] }) {
         showStats={false}
         palette="github"
         defaultView="3d"
-        className="max-sm:!rounded-none max-sm:!border-x-0 max-sm:!px-2"
       />
     </div>
   );

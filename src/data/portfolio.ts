@@ -74,10 +74,13 @@ export const site = {
 
 export const about = {
   statement: ["I don't just write code.", "I build systems."],
-  paragraphs: [
-    "I'm a software engineer in Dhaka who works across the whole product: data models, APIs, background jobs, and the interface people actually touch. Most of what I build is for the Bangladeshi market, where payroll rules, payment gateways and courier networks don't fit off-the-shelf tools.",
-    "I care about the parts nobody sees. Multi-tenant isolation, signed video URLs, a session model that survives three clients, a query that doesn't fall over at scale. Then I care just as much about how the result feels in the hand.",
-  ],
+  /** Pinned story under the statement (components/sections/AboutStory): short lines, drawn as visuals. */
+  story: {
+    role: "A software engineer in Dhaka.",
+    scope: { text: "The whole product, end to end.", chain: ["Data models", "APIs", "Background jobs", "Interface"] },
+    care: { text: "The parts nobody sees, and how it feels.", unseen: "Queries that hold at scale", felt: "Interfaces that feel right" },
+    builds: { text: "What I build." },
+  },
   builds: [
     "Modern web applications",
     "Scalable backend systems",
@@ -87,8 +90,13 @@ export const about = {
     "Secure systems",
     "High-performance interfaces",
   ],
-  /** The four verbs cycle in order beside the About text. */
-  process: ["Design", "Engineer", "Build", "Optimize"],
+  /** One pinned screen per step (components/sections/Process): a short line plus three chips, drawn as a diagram. */
+  process: [
+    { label: "Design", text: "Problem first. Then the data, then the screen.", points: ["Data model", "User flows", "Constraints"] }, // REPLACE with your own words
+    { label: "Engineer", text: "Boundaries, schemas and APIs that hold up.", points: ["Boundaries", "Schemas", "Contracts"] },
+    { label: "Build", text: "Small steps, shipped often, tested.", points: ["Small steps", "Tests", "Detail"] },
+    { label: "Optimize", text: "Measure, fix the bottleneck, stay fast.", points: ["Measure", "Fix", "Stay fast"] },
+  ],
 };
 
 /* ── Selected work ────────────────────────────────────────── */
@@ -100,7 +108,7 @@ export const projects: Project[] = [
     category: "Restaurant website",
     year: "2026", // REPLACE if different
     summary:
-      "A cinematic marketing site and table-reservation flow for a fictional live-fire restaurant, with a filterable seasonal menu and scroll-driven storytelling.",
+      "A cinematic restaurant site with a filterable menu and a validated booking flow.",
     role: "Design & front-end development", // REPLACE with your actual role
     // Only what's verifiable from the live site's own code and pages.
     technologies: ["Next.js", "React", "GSAP", "ScrollTrigger", "Zod"],
@@ -146,21 +154,21 @@ export const experience: ExperienceItem[] = [
     period: "2026",
     role: "Software Engineer",
     org: "DevToSoft", // REPLACE — verify title and company
-    summary: "Leading product engineering on multi-tenant SaaS, from schema design to deployment.",
+    summary: "Leading product engineering, from schema design to deployment.",
     stack: ["Next.js", "Django", "PostgreSQL", "Docker"],
   },
   {
     period: "2025",
     role: "Full-Stack Developer",
     org: "Freelance", // REPLACE
-    summary: "Built web platforms for clients, including protected video streaming and single-device authentication.",
-    stack: ["Next.js", "Django", "Flutter", "Bunny.net"],
+    summary: "Built web platforms for clients.",
+    stack: ["Next.js", "Django"],
   },
   {
     period: "2024",
     role: "Web Developer",
     org: "Independent", // REPLACE
-    summary: "Shipped MERN applications and pixel-matched storefronts with local payment integrations.",
+    summary: "Shipped MERN web applications.",
     stack: ["React", "Node.js", "MongoDB", "Tailwind"],
   },
 ];
@@ -186,6 +194,7 @@ export const github = {
 
 export const currentlyBuilding: CurrentBuild = {
   name: "Examrena",
+  tagline: "Exam prep for Bangladeshi students.",
   description:
     "An exam-preparation platform for Bangladeshi students — practice tests, instant results, and progress that actually means something.",
   stage: "Planning the platform and building the website",
@@ -197,7 +206,7 @@ export const currentlyBuilding: CurrentBuild = {
 
 export const philosophy = {
   lines: ["Good software", "should feel", "invisible."],
-  body: "When it works, nobody thinks about the retries, the cache, the index, or the twelve edge cases handled before lunch. They just get their payslip, watch their lesson, receive their parcel. That quiet is the job.",
+  body: "Nobody thinks about the retries, the cache, the index. That quiet is the job.",
 };
 
 /* ── Contact ──────────────────────────────────────────────── */

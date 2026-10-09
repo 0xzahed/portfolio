@@ -120,7 +120,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body style={{ backgroundColor: "#050505", color: "#f2f2ee" }}>
         <noscript>
-          <style>{`#preloader{display:none!important}.js-reveal{opacity:1!important;transform:none!important}.reveal-media,[data-reveal]{opacity:1!important;translate:none!important;scale:none!important}`}</style>
+          <style>{`#preloader{display:none!important}.js-reveal{opacity:1!important;transform:none!important}.reveal-media,[data-reveal],.s-in,.s-bar,.s-grow,.s-pop{opacity:1!important;translate:none!important;scale:none!important}.story-section{height:auto!important}.story-sticky{position:static!important;height:auto!important;padding-block:5rem!important}.story-stack{display:flex!important;flex-direction:column;gap:5rem}.story-step{visibility:visible!important;grid-area:auto!important}.story-label{transform:none!important}`}</style>
         </noscript>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a

@@ -48,6 +48,8 @@ export type ExperienceItem = {
 
 export type CurrentBuild = {
   name: string;
+  /** One short line for the pinned story. */
+  tagline: string;
   description: string;
   stage: string;
   updated: string; // ISO date

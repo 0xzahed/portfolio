@@ -80,7 +80,7 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
   };
 
   return (
-    <article className="pt-[calc(var(--nav-h)+3rem)]">
+    <article className={`pt-[calc(var(--nav-h)+3rem)] ${projects.length > 1 ? "" : "pb-24 md:pb-36"}`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="shell">
         <Link href="/#work" className="group inline-flex items-center gap-2 text-sm text-ash hover:text-bone">
@@ -168,19 +168,22 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
         </section>
       </div>
 
-      <Link
-        href={`/work/${next.slug}`}
-        data-cursor="view"
-        data-cursor-label="Next"
-        className="group mt-40 block border-t border-rule py-20 md:py-28"
-      >
-        <div className="shell">
-          <p className="text-sm text-ash">Next project</p>
-          <p className="display mt-6 text-[clamp(3rem,12vw,14rem)] text-smoke transition-[color,font-variation-settings] duration-700 ease-[var(--ease-out-expo)] [--wdth:80] group-hover:text-bone group-hover:[--wdth:120]">
-            {next.title}
-          </p>
-        </div>
-      </Link>
+      {/* With a single project there is nothing to go "next" to. */}
+      {projects.length > 1 && (
+        <Link
+          href={`/work/${next.slug}`}
+          data-cursor="view"
+          data-cursor-label="Next"
+          className="group mt-40 block border-t border-rule py-20 md:py-28"
+        >
+          <div className="shell">
+            <p className="text-sm text-ash">Next project</p>
+            <p className="display mt-6 text-[clamp(3rem,12vw,14rem)] text-smoke transition-[color,font-variation-settings] duration-700 ease-[var(--ease-out-expo)] [--wdth:80] group-hover:text-bone group-hover:[--wdth:120]">
+              {next.title}
+            </p>
+          </div>
+        </Link>
+      )}
     </article>
   );
 }

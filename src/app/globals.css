@@ -193,3 +193,83 @@
     }
   }
 }
+
+/*
+ * Pinned scroll stories (components/story/ScrollStory). The section is tall and one screen
+ * sticks while you scroll; React only flips data-active. Every motion below is a CSS
+ * transition on opacity / transform / translate / scale, so it stays on the compositor.
+ * --rel is (step index - active index): the big label slides in from below or out above.
+ */
+@layer components {
+  .story-step {
+    visibility: hidden;
+    transition: visibility 0s linear 0.75s;
+  }
+  .story-step[data-active="true"] {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .story-label {
+    transform: translateY(calc(var(--rel, 0) * 115%));
+    transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+  .story-step .s-in {
+    opacity: 0;
+    translate: 0 18px;
+    transition:
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) calc(0.12s + var(--i, 0) * 75ms),
+      translate 0.8s cubic-bezier(0.22, 1, 0.36, 1) calc(0.12s + var(--i, 0) * 75ms);
+  }
+  .story-step[data-active="true"] .s-in {
+    opacity: 1;
+    translate: none;
+  }
+  /* Horizontal line / bar that draws left to right. */
+  .story-step .s-bar {
+    scale: 0 1;
+    transform-origin: left center;
+    transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(0.18s + var(--i, 0) * 90ms);
+  }
+  .story-step[data-active="true"] .s-bar {
+    scale: 1 1;
+  }
+  /* Vertical bar that grows up from its base. */
+  .story-step .s-grow {
+    scale: 1 0;
+    transform-origin: center bottom;
+    transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(0.18s + var(--i, 0) * 90ms);
+  }
+  .story-step[data-active="true"] .s-grow {
+    scale: 1 1;
+  }
+  .story-step .s-pop {
+    opacity: 0;
+    scale: 0.82;
+    transition:
+      opacity 0.45s ease calc(0.2s + var(--i, 0) * 80ms),
+      scale 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) calc(0.2s + var(--i, 0) * 80ms);
+  }
+  .story-step[data-active="true"] .s-pop {
+    opacity: 1;
+    scale: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .story-step {
+      visibility: visible;
+      transition: none;
+    }
+    .story-label {
+      transform: none;
+      transition: none;
+    }
+    .story-step .s-in,
+    .story-step .s-bar,
+    .story-step .s-grow,
+    .story-step .s-pop {
+      opacity: 1;
+      translate: none;
+      scale: none;
+      transition: none;
+    }
+  }
+}
