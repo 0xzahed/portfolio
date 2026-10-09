@@ -1,7 +1,13 @@
 "use client";
 
 import { useLenis } from "lenis/react";
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { cn, pad } from "@/lib/utils";
 
 export type StoryStep = {
@@ -30,14 +36,22 @@ type Props = {
   className?: string;
 };
 
-const clampIndex = (p: number, n: number) => Math.min(n - 1, Math.max(0, Math.floor(p * n)));
+const clampIndex = (p: number, n: number) =>
+  Math.min(n - 1, Math.max(0, Math.floor(p * n)));
 
 /**
  * One pinned screen per step. As you scroll, the big label slides to the next step and the
  * visual re-draws; after the last step the page carries on. With reduced motion the steps
  * simply stack, unpinned.
  */
-export function ScrollStory({ id, eyebrow, title, steps, stepVh = [55, 70], className }: Props) {
+export function ScrollStory({
+  id,
+  eyebrow,
+  title,
+  steps,
+  stepVh = [55, 70],
+  className,
+}: Props) {
   const ref = useRef<HTMLElement>(null);
   const lenis = useLenis();
   const n = steps.length;
@@ -110,7 +124,9 @@ export function ScrollStory({ id, eyebrow, title, steps, stepVh = [55, 70], clas
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY;
     const y = top + ((k + 0.5) / n) * (el.offsetHeight - window.innerHeight);
-    if (lenis) lenis.scrollTo(y, { duration: 1.2 });
+    // Lenis only runs on fine pointers (touch scrolls natively), so a Lenis scrollTo would do nothing there.
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+    if (lenis && !touch) lenis.scrollTo(y, { duration: 1.2 });
     else window.scrollTo({ top: y, behavior: "smooth" });
   };
 
@@ -136,7 +152,11 @@ export function ScrollStory({ id, eyebrow, title, steps, stepVh = [55, 70], clas
         {steps.map((s) => (
           <li key={s.id}>
             {s.label}
-            {s.summary ? `: ${s.summary}` : typeof s.text === "string" ? `: ${s.text}` : ""}
+            {s.summary
+              ? `: ${s.summary}`
+              : typeof s.text === "string"
+                ? `: ${s.text}`
+                : ""}
           </li>
         ))}
       </ol>
@@ -145,14 +165,15 @@ export function ScrollStory({ id, eyebrow, title, steps, stepVh = [55, 70], clas
         <div className="shell flex min-h-0 flex-1 flex-col">
           <div className="flex shrink-0 items-end justify-between border-b border-rule pb-3">
             <span className="eyebrow">{eyebrow}</span>
-            <span aria-hidden className="font-mono text-xs tabular-nums text-ash motion-reduce:hidden">
+            <span
+              aria-hidden
+              className="font-mono text-xs tabular-nums text-ash motion-reduce:hidden"
+            >
               {pad(active + 1)} / {pad(n)}
             </span>
           </div>
 
-          <div
-            className="story-stack grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)] pt-4 md:pt-8 motion-reduce:flex motion-reduce:flex-col motion-reduce:gap-20"
-          >
+          <div className="story-stack grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)] pt-4 md:pt-8 motion-reduce:flex motion-reduce:flex-col motion-reduce:gap-20">
             {steps.map((s, k) => (
               <div
                 key={s.id}
@@ -162,32 +183,46 @@ export function ScrollStory({ id, eyebrow, title, steps, stepVh = [55, 70], clas
               >
                 <div className="flex min-h-0 flex-col md:col-span-5 md:justify-between">
                   <div className="overflow-hidden pb-[0.08em]">
-                    <div aria-hidden className="story-label flex items-baseline gap-3 md:block">
-                      <span
-                        className="display block text-signal tabular-nums [--wdth:62] text-[clamp(3rem,16vw,4.5rem)] md:text-[clamp(5rem,12.5vw,13rem)]"
-                      >
+                    <div
+                      aria-hidden
+                      className="story-label flex items-baseline gap-3 md:block"
+                    >
+                      <span className="display block text-signal tabular-nums [--wdth:62] text-[clamp(2.5rem,13vw,3.5rem)] md:text-[clamp(4rem,8.5vw,8.5rem)]">
                         {s.index ?? pad(k + 1)}
                       </span>
-                      <span className="display block text-[clamp(1.5rem,6.5vw,2rem)] [--wdth:112] md:mt-3 md:text-[clamp(2rem,3.6vw,3.5rem)]">
+                      <span className="display block text-[clamp(1.25rem,5.5vw,1.625rem)] [--wdth:112] md:mt-2 md:text-[clamp(1.5rem,2.6vw,2.5rem)]">
                         {s.label}
                       </span>
                     </div>
                   </div>
                   {s.text && (
-                    <p aria-hidden className="s-in mt-2 hidden max-w-[30ch] text-base leading-snug text-bone/85 md:mt-0 md:block md:text-lg">
+                    <p
+                      aria-hidden
+                      className="s-in mt-2 hidden max-w-[30ch] text-base leading-snug text-bone/85 md:mt-0 md:block md:text-base"
+                    >
                       {s.text}
                     </p>
                   )}
                 </div>
                 {s.text && (
-                  <p aria-hidden className="s-in text-[0.9375rem] leading-snug text-bone/85 md:hidden">{s.text}</p>
+                  <p
+                    aria-hidden
+                    className="s-in text-sm leading-snug text-bone/80 md:hidden"
+                  >
+                    {s.text}
+                  </p>
                 )}
-                <div className="flex min-h-0 flex-col justify-center md:col-span-7 md:col-start-6">{s.visual}</div>
+                <div className="flex min-h-0 flex-col justify-center md:col-span-7 md:col-start-6">
+                  {s.visual}
+                </div>
               </div>
             ))}
           </div>
 
-          <ol className="mt-3 grid shrink-0 gap-2 motion-reduce:hidden md:mt-6" style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}>
+          <ol
+            className="mt-3 grid shrink-0 gap-2 motion-reduce:hidden md:mt-6"
+            style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}
+          >
             {steps.map((s, k) => (
               <li key={s.id}>
                 <button

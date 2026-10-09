@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import { projects, person, site } from "@/data/portfolio";
 import { ProjectMedia } from "@/components/projects/ProjectSection";
 import { RevealLines, Fade } from "@/components/ui/Reveal";
@@ -84,7 +83,6 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="shell">
         <Link href="/#work" className="group inline-flex items-center gap-2 text-sm text-ash hover:text-bone">
-          <ArrowLeft aria-hidden className="size-4 transition-transform duration-500 group-hover:-translate-x-1" strokeWidth={1.5} />
           <span className="link-line">All work</span>
         </Link>
 
@@ -96,7 +94,7 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
         <RevealLines
           as="h1"
           lines={[project.title]}
-          className="display mt-6 text-[clamp(2.5rem,11vw,16rem)] [--wdth:96] md:[--wdth:110]"
+          className="display mt-6 text-[clamp(2rem,7.5vw,9rem)] [--wdth:96] md:[--wdth:110]"
         />
 
         <Fade className="mt-12 grid grid-cols-1 gap-10 border-t border-rule pt-8 md:grid-cols-12 md:gap-x-6">
@@ -138,7 +136,7 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
           { h: "The approach", body: cs.approach },
         ].map((s) => (
           <section key={s.h} className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-x-6">
-            <h2 className="display text-[clamp(1.75rem,3.2vw,3rem)] [--wdth:110] md:col-span-4">{s.h}</h2>
+            <h2 className="display text-[clamp(1.375rem,2.4vw,2.25rem)] [--wdth:110] md:col-span-4">{s.h}</h2>
             <Fade className="md:col-span-7 md:col-start-6">
               <p className="max-w-[62ch] text-xl leading-relaxed text-bone/85">{s.body}</p>
             </Fade>
@@ -146,7 +144,7 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
         ))}
 
         <section className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-x-6">
-          <h2 className="display text-[clamp(1.75rem,3.2vw,3rem)] [--wdth:110] md:col-span-4">Engineering</h2>
+          <h2 className="display text-[clamp(1.375rem,2.4vw,2.25rem)] [--wdth:110] md:col-span-4">Engineering</h2>
           <ol className="md:col-span-7 md:col-start-6">
             {cs.highlights.map((h, i) => (
               <li key={h.title} className="grid grid-cols-[3rem_1fr] gap-4 border-t border-rule py-8 last:border-b">
@@ -161,7 +159,7 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
         </section>
 
         <section className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-x-6">
-          <h2 className="display text-[clamp(1.75rem,3.2vw,3rem)] [--wdth:110] md:col-span-4">Where it stands</h2>
+          <h2 className="display text-[clamp(1.375rem,2.4vw,2.25rem)] [--wdth:110] md:col-span-4">Where it stands</h2>
           <Fade className="md:col-span-7 md:col-start-6">
             <p className="max-w-[62ch] text-xl leading-relaxed text-bone/85">{cs.outcome}</p>
           </Fade>
@@ -178,7 +176,7 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
         >
           <div className="shell">
             <p className="text-sm text-ash">Next project</p>
-            <p className="display mt-6 text-[clamp(3rem,12vw,14rem)] text-smoke transition-[color,font-variation-settings] duration-700 ease-[var(--ease-out-expo)] [--wdth:80] group-hover:text-bone group-hover:[--wdth:120]">
+            <p className="display mt-6 text-[clamp(2.25rem,8vw,9rem)] text-smoke transition-[color,font-variation-settings] duration-700 ease-[var(--ease-out-expo)] [--wdth:80] group-hover:text-bone group-hover:[--wdth:120]">
               {next.title}
             </p>
           </div>

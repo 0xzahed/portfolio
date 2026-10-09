@@ -273,3 +273,25 @@
     }
   }
 }
+
+/*
+ * FocusPanel: the pressed button outlines the drawing parts that list its number in data-part.
+ * An animation (not a transition) is used so it never fights the .s-* entrance transitions.
+ */
+@keyframes part-on {
+  from {
+    outline-color: transparent;
+  }
+  to {
+    outline-color: var(--color-mint);
+  }
+}
+@layer components {
+  [data-focus="0"] [data-part~="0"],
+  [data-focus="1"] [data-part~="1"],
+  [data-focus="2"] [data-part~="2"] {
+    outline: 1.5px solid var(--color-mint);
+    outline-offset: 3px;
+    animation: part-on 0.35s ease;
+  }
+}

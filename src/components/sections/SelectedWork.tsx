@@ -32,7 +32,7 @@ export function SelectedWork() {
           <RevealLines
             id="work-title"
             lines={["Selected", "work"]}
-            className="display text-[clamp(3.5rem,13vw,15rem)] [--wdth:72]"
+            className="display text-[clamp(2.5rem,8.5vw,9rem)] [--wdth:72]"
           />
         </div>
         {!single &&

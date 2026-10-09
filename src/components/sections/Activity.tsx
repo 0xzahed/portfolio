@@ -47,7 +47,7 @@ export async function Activity() {
       <RevealLines
         id="activity-title"
         lines={["Code / build", "/ ship"]}
-        className="display text-[clamp(3rem,9vw,10rem)] [--wdth:80]"
+        className="display text-[clamp(2.25rem,6.2vw,7rem)] [--wdth:80]"
       />
       {data && (
         <ArrowLink href={`https://github.com/${data.username}`} className="text-sm md:mb-[0.6em]">

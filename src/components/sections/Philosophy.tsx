@@ -37,7 +37,7 @@ export function Philosophy() {
     <section ref={ref} aria-labelledby="philosophy-title" className="relative h-[190vh] border-t border-rule md:h-[260vh]">
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden">
         <div className="shell">
-          <h2 id="philosophy-title" className="display text-[clamp(3rem,min(9.6vw,22svh),13rem)] leading-[0.84]">
+          <h2 id="philosophy-title" className="display text-[clamp(2.25rem,min(7.4vw,18svh),9.5rem)] leading-[0.84]">
             <span className="sr-only">{philosophy.lines.join(" ")}</span>
             <span aria-hidden>
               {philosophy.lines.map((l, i) => (

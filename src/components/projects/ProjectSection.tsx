@@ -12,7 +12,6 @@ import {
   useTransform,
 } from "motion/react";
 import { useRef, useState, type PointerEvent } from "react";
-import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/types";
 import { useFinePointer, useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn, pad } from "@/lib/utils";
@@ -134,7 +133,6 @@ export function ProjectSection({ project, index, total }: { project: Project; in
             <div {...reveal(4)} className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[0.8125rem]">
               <Link href={href} className="group inline-flex items-center gap-2 text-bone">
                 <span className="link-line">View project</span>
-                <ArrowUpRight aria-hidden className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={1.5} />
               </Link>
               {project.liveUrl && (
                 <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="link-line text-ash hover:text-bone">
@@ -190,7 +188,6 @@ export function ProjectSection({ project, index, total }: { project: Project; in
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
                 View case study
-                <ArrowUpRight className="size-3.5" strokeWidth={2} />
               </m.span>
             </m.div>
           </Link>

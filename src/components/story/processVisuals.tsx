@@ -1,20 +1,17 @@
-import {
-  Check,
-  Database,
-  MonitorSmartphone,
-  MousePointer2,
-  Waypoints,
-  type LucideIcon,
-} from "lucide-react";
-import { Chips, Panel, v } from "./atoms";
+import { FocusPanel } from "./FocusPanel";
+import { v } from "./atoms";
 
 type Visual = { points: string[] };
 
-/** 1 · Design: a wireframe sketching itself in. */
+/** 1 · Design: a wireframe sketching itself in. Data model → the blocks, User flows → the page, Constraints → the frame. */
 export function DesignVisual({ points }: Visual) {
   return (
-    <Panel className="flex flex-col gap-3">
-      <div className="s-in flex items-center gap-1.5" style={v(0)}>
+    <FocusPanel points={points} className="flex flex-col gap-3">
+      <div
+        className="s-in flex items-center gap-1.5"
+        style={v(0)}
+        data-part="2"
+      >
         <span className="size-2 rounded-full bg-rule-strong" />
         <span className="size-2 rounded-full bg-rule-strong" />
         <span className="size-2 rounded-full bg-rule-strong" />
@@ -23,6 +20,7 @@ export function DesignVisual({ points }: Visual) {
       <div
         className="s-in relative min-h-0 flex-[1.3] rounded-lg border border-rule-strong bg-carbon"
         style={v(1)}
+        data-part="1"
       >
         <span
           className="s-bar absolute left-4 top-4 h-2 w-1/3 rounded bg-bone/70"
@@ -36,12 +34,6 @@ export function DesignVisual({ points }: Visual) {
           className="s-pop absolute bottom-4 left-4 h-6 w-16 rounded bg-signal"
           style={v(4)}
         />
-        <MousePointer2
-          aria-hidden
-          className="s-pop absolute bottom-3 left-[4.5rem] size-5 text-bone"
-          strokeWidth={1.5}
-          style={v(6)}
-        />
       </div>
       <div className="grid min-h-0 flex-1 grid-cols-3 gap-3">
         {[0, 1, 2].map((k) => (
@@ -49,30 +41,36 @@ export function DesignVisual({ points }: Visual) {
             key={k}
             className="s-in rounded-lg border border-rule bg-carbon p-2.5"
             style={v(3 + k)}
+            data-part="0"
           >
             <span className="block h-2 w-2/3 rounded bg-rule-strong" />
             <span className="mt-2 block h-2 w-1/2 rounded bg-rule" />
           </div>
         ))}
       </div>
-      <Chips items={points} start={6} accentFirst />
-    </Panel>
+    </FocusPanel>
   );
 }
 
 function Node({
-  icon: Icon,
+  n,
   label,
   i,
+  part,
 }: {
-  icon: LucideIcon;
+  n: string;
   label: string;
   i: number;
+  part: string;
 }) {
   return (
-    <div className="s-pop flex flex-col items-center gap-2" style={v(i)}>
-      <span className="grid size-14 place-items-center rounded-2xl border border-rule-strong bg-carbon text-mint md:size-20">
-        <Icon aria-hidden className="size-6 md:size-8" strokeWidth={1.5} />
+    <div
+      className="s-pop flex flex-col items-center gap-2"
+      style={v(i)}
+      data-part={part}
+    >
+      <span className="grid size-14 place-items-center rounded-2xl border border-rule-strong bg-carbon font-mono text-sm text-mint md:size-20 md:text-base">
+        {n}
       </span>
       <span className="font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ash">
         {label}
@@ -81,23 +79,29 @@ function Node({
   );
 }
 
-/** 2 · Engineer: data → API → interface, wired together. */
+/** 2 · Engineer: data → API → interface. Boundaries → the three parts, Schemas → data + its rules, Contracts → the links. */
 export function EngineerVisual({ points }: Visual) {
   return (
-    <Panel className="flex flex-col justify-between gap-6">
+    <FocusPanel
+      points={points}
+      start={8}
+      className="flex flex-col justify-between gap-6"
+    >
       <div className="flex flex-1 flex-col justify-center gap-10">
         <div className="flex items-center">
-          <Node icon={Database} label="Data" i={0} />
+          <Node n="01" label="Data" i={0} part="0 1" />
           <span
             className="s-bar mx-2 mb-6 h-px flex-1 bg-signal/70"
             style={v(1)}
+            data-part="2"
           />
-          <Node icon={Waypoints} label="API" i={2} />
+          <Node n="02" label="API" i={2} part="0" />
           <span
             className="s-bar mx-2 mb-6 h-px flex-1 bg-signal/70"
             style={v(3)}
+            data-part="2"
           />
-          <Node icon={MonitorSmartphone} label="Interface" i={4} />
+          <Node n="03" label="Interface" i={4} part="0" />
         </div>
         <div className="space-y-2.5">
           {[78, 56, 68].map((w, k) => (
@@ -105,12 +109,12 @@ export function EngineerVisual({ points }: Visual) {
               key={k}
               className="s-bar block h-2 rounded bg-rule-strong"
               style={{ ...v(5 + k), width: `${w}%` }}
+              data-part="1"
             />
           ))}
         </div>
       </div>
-      <Chips items={points} start={8} accentFirst />
-    </Panel>
+    </FocusPanel>
   );
 }
 
@@ -123,16 +127,17 @@ const CODE: [number, number, number][] = [
   [0, 18, 0],
 ];
 
-/** 3 · Build: code going in, checks going green. */
+/** 3 · Build: code going in. Small steps → the first lines, Tests → the middle, Detail → the last. */
 export function BuildVisual({ points }: Visual) {
   return (
-    <Panel className="flex flex-col gap-5">
+    <FocusPanel points={points} className="flex flex-col gap-5">
       <div className="flex flex-1 flex-col justify-around">
         {CODE.map(([indent, a, b], k) => (
           <div
             key={k}
             className="flex gap-2"
             style={{ paddingLeft: `${indent}%` }}
+            data-part={String(Math.floor(k / 2))}
           >
             <span
               className="s-bar h-3 rounded bg-mint/70"
@@ -147,34 +152,23 @@ export function BuildVisual({ points }: Visual) {
           </div>
         ))}
       </div>
-      <div className="flex flex-wrap gap-2">
-        {points.map((t, k) => (
-          <span
-            key={t}
-            style={v(6 + k)}
-            className="s-pop inline-flex items-center gap-1.5 rounded-full border border-signal/50 px-3 py-1.5 text-[0.8125rem] text-mint md:text-sm"
-          >
-            <Check aria-hidden className="size-3.5" strokeWidth={2} />
-            {t}
-          </span>
-        ))}
-      </div>
-    </Panel>
+    </FocusPanel>
   );
 }
 
 const BARS = [100, 82, 64, 46, 32, 22];
 
-/** 4 · Optimize: the same thing, getting shorter. */
+/** 4 · Optimize: the same thing, getting shorter. Measure → before, Fix → the drop, Stay fast → after. */
 export function OptimizeVisual({ points }: Visual) {
   return (
-    <Panel className="flex flex-col gap-4">
+    <FocusPanel points={points} className="flex flex-col gap-4">
       <div className="flex min-h-0 flex-1 items-end gap-2.5 border-b border-rule-strong md:gap-3">
         {BARS.map((h, k) => (
           <div key={k} className="flex h-full flex-1 items-end">
             <span
               className={`s-grow block w-full rounded-t ${k === BARS.length - 1 ? "bg-mint" : "bg-signal/55"}`}
               style={{ ...v(k), height: `${h}%` }}
+              data-part={String(Math.floor(k / 2))}
             />
           </div>
         ))}
@@ -183,7 +177,6 @@ export function OptimizeVisual({ points }: Visual) {
         <span>Before</span>
         <span className="text-mint">After</span>
       </div>
-      <Chips items={points} start={6} accentFirst />
-    </Panel>
+    </FocusPanel>
   );
 }

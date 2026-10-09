@@ -25,7 +25,7 @@ export function Engineering() {
         <RevealLines
           id="eng-title"
           lines={["Engineered", "with intention."]}
-          className="display text-[clamp(2.75rem,8vw,9rem)] [--wdth:84]"
+          className="display text-[clamp(2rem,5.6vw,6.25rem)] [--wdth:84]"
         />
       </div>
       <ScrollStory id="engineering" eyebrow="Engineering" steps={steps} stepVh={[45, 55]} />

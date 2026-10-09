@@ -25,7 +25,7 @@ export function About() {
         <h2
           id="about-title"
           ref={statementRef}
-          className="display max-w-[14ch] text-[clamp(2.75rem,8.4vw,9.5rem)]"
+          className="display max-w-[14ch] text-[clamp(2rem,6vw,6.5rem)]"
           style={{ ["--wdth" as string]: 88 }}
         >
           <span className="sr-only">{about.statement.join(" ")}</span>

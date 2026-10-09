@@ -16,7 +16,7 @@ export function Experience() {
   return (
     <section id="experience" aria-labelledby="exp-title" className="relative border-t border-rule pt-20 md:pt-44">
       <div className="shell mb-4 md:mb-8">
-        <RevealLines id="exp-title" lines={["Experience"]} className="display text-[clamp(3rem,10vw,11rem)] [--wdth:76]" />
+        <RevealLines id="exp-title" lines={["Experience"]} className="display text-[clamp(2.25rem,7vw,7.5rem)] [--wdth:76]" />
       </div>
       <ScrollStory id="experience-story" eyebrow="Experience" steps={steps} stepVh={[55, 65]} />
     </section>

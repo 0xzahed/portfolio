@@ -67,7 +67,7 @@ export function Hero() {
           {person.name} — {person.roles.join(" · ")}
         </m.p>
 
-        <m.h1 id="hero-title" style={{ y: headY }} className="display relative z-10 text-ash text-[clamp(2.5rem,min(13.8vw,19svh),17rem)]">
+        <m.h1 id="hero-title" style={{ y: headY }} className="display relative z-10 text-ash text-[clamp(2.25rem,min(11.6vw,17svh),14rem)]">
           <span className="sr-only">{`${person.name}, ${person.role.toLowerCase()} — `}</span>
           {HEADLINE.map((word, i) => (
             <span
