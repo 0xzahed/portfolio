@@ -30,7 +30,7 @@ function Phone({ title, posts, tone }: { title: string; posts: number; tone: num
               <div
                 className="mt-2 aspect-[4/3] w-full"
                 style={{
-                  background: `linear-gradient(${140 + tone * 30}deg, rgba(170,183,183,${0.14 + tone * 0.03}), rgba(46,65,86,1) 70%)`,
+                  background: `linear-gradient(${140 + tone * 30}deg, rgba(170,183,183,${0.14 + tone * 0.03}), rgba(20,21,21,1) 70%)`,
                 }}
               />
             )}

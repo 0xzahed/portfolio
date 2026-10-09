@@ -16,14 +16,14 @@ function Node({ x, y, label, strong }: { x: number; y: number; label: string; st
   const w = nodeW(label);
   return (
     <g transform={`translate(${x - w / 2} ${y - 14})`}>
-      <rect width={w} height={28} fill={strong ? "#D4D8DD" : "#223548"} stroke="rgba(255,255,255,0.16)" />
+      <rect width={w} height={28} fill={strong ? "#D4D8DD" : "#0c0d0d"} stroke="rgba(255,255,255,0.16)" />
       <text
         x={w / 2}
         y={18}
         textAnchor="middle"
         fontSize="11"
         fontFamily="var(--font-geist)"
-        fill={strong ? "#1A2D42" : "#D4D8DD"}
+        fill={strong ? "#050505" : "#D4D8DD"}
       >
         {label}
       </text>

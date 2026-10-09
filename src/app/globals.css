@@ -2,9 +2,9 @@
 @import "lenis/dist/lenis.css";
 
 @theme {
-  --color-ink: #1A2D42;
-  --color-graphite: #223548;
-  --color-carbon: #2E4156;
+  --color-ink: #050505;
+  --color-graphite: #0c0d0d;
+  --color-carbon: #141515;
   --color-bone: #D4D8DD;
   --color-ash: #8FA0AB;
   --color-smoke: #7A8B97;
@@ -46,7 +46,7 @@
 
   html {
     background-color: var(--color-ink);
-    background-image: linear-gradient(180deg, #2e4156 0%, #1a2d42 45%, #0f1c2a 100%);
+    background-image: linear-gradient(180deg, #141515 0%, #050505 45%, #000000 100%);
     background-attachment: fixed;
     color: var(--color-bone);
     -webkit-text-size-adjust: 100%;
