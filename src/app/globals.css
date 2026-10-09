@@ -2,14 +2,14 @@
 @import "lenis/dist/lenis.css";
 
 @theme {
-  --color-ink: #050505;
-  --color-graphite: #0c0d0d;
-  --color-carbon: #141515;
-  --color-bone: #f2f2ee;
-  --color-ash: #8a8a8a;
-  --color-smoke: #777777;
-  --color-signal: #20b796;
-  --color-mint: #7ae7d1;
+  --color-ink: #1A2D42;
+  --color-graphite: #223548;
+  --color-carbon: #2E4156;
+  --color-bone: #D4D8DD;
+  --color-ash: #8FA0AB;
+  --color-smoke: #7A8B97;
+  --color-signal: #AAB7B7;
+  --color-mint: #C0C8CA;
   --color-rule: rgb(255 255 255 / 0.08);
   --color-rule-strong: rgb(255 255 255 / 0.16);
 
@@ -153,7 +153,7 @@
 
   .text-outline {
     color: transparent;
-    -webkit-text-stroke: 1px rgb(242 242 238 / 0.35);
+    -webkit-text-stroke: 1px rgb(212 216 221 / 0.35);
   }
 }
 

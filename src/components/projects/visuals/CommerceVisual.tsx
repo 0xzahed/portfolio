@@ -16,14 +16,14 @@ function Node({ x, y, label, strong }: { x: number; y: number; label: string; st
   const w = nodeW(label);
   return (
     <g transform={`translate(${x - w / 2} ${y - 14})`}>
-      <rect width={w} height={28} fill={strong ? "#f2f2ee" : "#0c0d0d"} stroke="rgba(255,255,255,0.16)" />
+      <rect width={w} height={28} fill={strong ? "#D4D8DD" : "#223548"} stroke="rgba(255,255,255,0.16)" />
       <text
         x={w / 2}
         y={18}
         textAnchor="middle"
         fontSize="11"
         fontFamily="var(--font-geist)"
-        fill={strong ? "#050505" : "#f2f2ee"}
+        fill={strong ? "#1A2D42" : "#D4D8DD"}
       >
         {label}
       </text>
@@ -57,7 +57,7 @@ export function CommerceVisual() {
           <g key={i}>
             <path d={d} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
             {on && !reduce && (
-              <circle r="2.2" fill="#20b796">
+              <circle r="2.2" fill="#AAB7B7">
                 <animateMotion dur={`${2.6 + (i % 3) * 0.5}s`} begin={`${(i % 3) * 0.7 + Math.floor(i / 3) * 0.9}s`} repeatCount="indefinite" path={d} />
               </circle>
             )}

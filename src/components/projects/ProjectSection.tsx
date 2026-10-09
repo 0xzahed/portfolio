@@ -165,7 +165,7 @@ export function ProjectSection({ project, index, total }: { project: Project; in
             <m.div
               style={{ clipPath: small ? "none" : clipPath }}
               className={cn(
-                "reveal-media relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-rule bg-graphite/60 shadow-[0_0_0_0_rgba(32,183,150,0)] transition-[border-color,box-shadow] duration-700 ease-[var(--ease-out-expo)] group-hover/card:border-signal/40 group-hover/card:shadow-[0_30px_80px_-30px_rgba(32,183,150,0.35)] sm:aspect-[16/10] max-md:transition-[opacity,translate,scale,border-color] max-md:duration-[900ms] max-md:ease-[cubic-bezier(0.22,1,0.36,1)]",
+                "reveal-media relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-rule bg-graphite/60 shadow-[0_0_0_0_rgba(170,183,183,0)] transition-[border-color,box-shadow] duration-700 ease-[var(--ease-out-expo)] group-hover/card:border-signal/40 group-hover/card:shadow-[0_30px_80px_-30px_rgba(170,183,183,0.35)] sm:aspect-[16/10] max-md:transition-[opacity,translate,scale,border-color] max-md:duration-[900ms] max-md:ease-[cubic-bezier(0.22,1,0.36,1)]",
                 revealed ? "max-md:translate-y-0 max-md:scale-100 max-md:opacity-100" : "max-md:translate-y-10 max-md:scale-[0.95] max-md:opacity-0",
               )}
             >

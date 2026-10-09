@@ -29,7 +29,7 @@ function leafCells() {
 }
 
 const cellColor = (v: number) =>
-  v === 0 ? "rgba(255,255,255,0.025)" : v > 0.5 ? `rgba(32,183,150,${0.25 + v * 0.75})` : `rgba(242,242,238,${v * 0.6})`;
+  v === 0 ? "rgba(255,255,255,0.025)" : v > 0.5 ? `rgba(170,183,183,${0.25 + v * 0.75})` : `rgba(212,216,221,${v * 0.6})`;
 
 /** One canvas instead of 300+ DOM nodes; columns fade in left to right when visible. */
 function ActivationMap({ on, reduce }: { on: boolean; reduce: boolean | null }) {
@@ -125,8 +125,8 @@ export function VisionVisual() {
               <m.span
                 key={k}
                 className="h-6 flex-1 border border-rule-strong"
-                initial={{ backgroundColor: "rgba(32,183,150,0)" }}
-                animate={on ? { backgroundColor: "rgba(32,183,150,0.35)" } : {}}
+                initial={{ backgroundColor: "rgba(170,183,183,0)" }}
+                animate={on ? { backgroundColor: "rgba(170,183,183,0.35)" } : {}}
                 transition={{ delay: 1 + k * 0.25, duration: 0.5 }}
               />
             ))}

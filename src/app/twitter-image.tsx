@@ -15,16 +15,16 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#050505",
-          color: "#f2f2ee",
+          background: "#1A2D42",
+          color: "#D4D8DD",
           padding: "64px 72px",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#8a8a8a" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#8FA0AB" }}>
           <span>{person.name}</span>
           <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ width: 10, height: 10, borderRadius: 10, background: "#20b796" }} />
+            <span style={{ width: 10, height: 10, borderRadius: 10, background: "#AAB7B7" }} />
             Available for work
           </span>
         </div>
@@ -33,7 +33,7 @@ export default function OpengraphImage() {
           <span>digital</span>
           <span>systems.</span>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#8a8a8a", borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 24 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#8FA0AB", borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 24 }}>
           <span>{person.role}</span>
           <span>{person.location}</span>
         </div>

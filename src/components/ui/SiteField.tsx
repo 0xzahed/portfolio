@@ -21,7 +21,7 @@ export function SiteField() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
       {!mounted ? null : reduce ? (
-        <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_75%_45%,rgba(32,183,150,0.08),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_75%_45%,rgba(170,183,183,0.08),transparent_70%)]" />
       ) : (
         <HeroField active={ready} />
       )}

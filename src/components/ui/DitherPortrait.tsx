@@ -125,10 +125,10 @@ export function DitherPortrait({ src, cellSize = 9, contrast = 158, shimmer = 60
           if (l > thr) {
             // Lift the cell's own colour toward bone.
             const m = 0.32;
-            bctx.fillStyle = `rgba(${Math.round(r + (242 - r) * m)},${Math.round(g + (242 - g) * m)},${Math.round(b + (238 - b) * m)},${a.toFixed(3)})`;
+            bctx.fillStyle = `rgba(${Math.round(r + (212 - r) * m)},${Math.round(g + (216 - g) * m)},${Math.round(b + (221 - b) * m)},${a.toFixed(3)})`;
             bctx.fillRect(px + (cell - size) / 2, py + (cell - size) / 2, size, size);
           } else {
-            bctx.fillStyle = `rgba(242,242,238,${(0.3 * a).toFixed(3)})`;
+            bctx.fillStyle = `rgba(212,216,221,${(0.3 * a).toFixed(3)})`;
             bctx.fillRect(px + cell / 2 - dot / 2, py + cell / 2 - dot / 2, dot, dot);
           }
         }
@@ -154,9 +154,9 @@ export function DitherPortrait({ src, cellSize = 9, contrast = 158, shimmer = 60
       const p = ((t / 7) % 1) * 1.6 - 0.3;
       const band = ctx.createLinearGradient(0, 0, W * 0.85, H * 0.52);
       const at = (v: number) => Math.min(1, Math.max(0, v));
-      band.addColorStop(at(p - 0.14), "rgba(122,231,209,0)");
-      band.addColorStop(at(p), `rgba(122,231,209,${glow})`);
-      band.addColorStop(at(p + 0.14), "rgba(122,231,209,0)");
+      band.addColorStop(at(p - 0.14), "rgba(192,200,202,0)");
+      band.addColorStop(at(p), `rgba(192,200,202,${glow})`);
+      band.addColorStop(at(p + 0.14), "rgba(192,200,202,0)");
       ctx.globalCompositeOperation = "source-atop";
       ctx.fillStyle = band;
       ctx.fillRect(0, top, W, H - top);

@@ -69,7 +69,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050505",
+  themeColor: "#1A2D42",
   colorScheme: "dark",
 };
 
@@ -116,9 +116,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${archivo.variable} ${geist.variable} ${geistMono.variable} antialiased`}
-      style={{ backgroundColor: "#050505", colorScheme: "dark" }}
+      style={{ backgroundColor: "#1A2D42", colorScheme: "dark" }}
     >
-      <body style={{ backgroundColor: "#050505", color: "#f2f2ee" }}>
+      <body style={{ backgroundColor: "#1A2D42", color: "#D4D8DD" }}>
         <noscript>
           <style>{`#preloader{display:none!important}.js-reveal{opacity:1!important;transform:none!important}.reveal-media,[data-reveal],.s-in,.s-bar,.s-grow,.s-pop{opacity:1!important;translate:none!important;scale:none!important}.story-section{height:auto!important}.story-sticky{position:static!important;height:auto!important;padding-block:5rem!important}.story-stack{display:flex!important;flex-direction:column;gap:5rem}.story-step{visibility:visible!important;grid-area:auto!important}.story-label{transform:none!important}`}</style>
         </noscript>

@@ -197,7 +197,7 @@ export default function HeroField({ active }: { active: boolean }) {
   return (
     <div ref={hostRef} aria-hidden className="group/field absolute inset-0">
       {/* Static stand-in shown when WebGL is unavailable or software-rendered. */}
-      <div className="absolute inset-0 hidden bg-[radial-gradient(60%_50%_at_75%_45%,rgba(32,183,150,0.07),transparent_70%)] group-data-[fallback=true]/field:block" />
+      <div className="absolute inset-0 hidden bg-[radial-gradient(60%_50%_at_75%_45%,rgba(170,183,183,0.07),transparent_70%)] group-data-[fallback=true]/field:block" />
     </div>
   );
 }

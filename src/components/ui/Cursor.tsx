@@ -94,8 +94,8 @@ export function Cursor() {
           height: size,
           opacity: visible && mode !== "hidden" ? 1 : 0,
           scale: pressed ? 0.85 : 1,
-          backgroundColor: filled ? (mode === "view" ? "rgba(32,183,150,1)" : "rgba(242,242,238,1)") : "rgba(242,242,238,0)",
-          borderColor: filled ? "rgba(242,242,238,0)" : "rgba(242,242,238,0.5)",
+          backgroundColor: filled ? (mode === "view" ? "rgba(170,183,183,1)" : "rgba(212,216,221,1)") : "rgba(212,216,221,0)",
+          borderColor: filled ? "rgba(212,216,221,0)" : "rgba(212,216,221,0.5)",
         }}
         transition={{ type: "spring", stiffness: 520, damping: 38, mass: 0.5 }}
         initial={false}

@@ -30,7 +30,7 @@ export function StreamVisual() {
         <div className="grid h-full grid-cols-1 sm:grid-cols-[1.35fr_1fr]">
           <div className="relative flex flex-col justify-center border-rule p-3 sm:border-r sm:p-5">
             <div className="relative aspect-video w-full overflow-hidden bg-ink">
-              <div className="absolute inset-0 bg-[radial-gradient(80%_70%_at_30%_40%,rgba(122,231,209,0.12),transparent_60%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(80%_70%_at_30%_40%,rgba(192,200,202,0.12),transparent_60%)]" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="flex size-12 items-center justify-center rounded-full border border-rule-strong">
                   <span className="ml-1 h-0 w-0 border-y-[7px] border-l-[11px] border-y-transparent border-l-bone" />
