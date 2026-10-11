@@ -2,9 +2,10 @@ import { getGitHubActivity } from "@/lib/github";
 import { github, projects } from "@/data/portfolio";
 import { RevealLines } from "@/components/ui/Reveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
-import { ScrollStory, type StoryStep } from "@/components/story/ScrollStory";
 import { NumbersVisual, ReposVisual } from "@/components/story/activityVisuals";
 import { ActivitySkyline } from "@/components/sections/ActivitySkyline";
+import { Panel } from "@/components/story/atoms";
+import { reveal } from "@/lib/reveal";
 
 const WEEKS = 53;
 
@@ -38,12 +39,12 @@ function stackFrequency(): [string, number][] {
   return top.map(([n, c]) => [n, c / max]);
 }
 
-/** Year of contributions → numbers and languages → recent repos, one pinned screen each. */
+/** GitHub activity as cards: skyline, numbers/languages, recent repos. No pinning. */
 export async function Activity() {
   const data = await getGitHubActivity();
 
   const heading = (
-    <div className="shell mb-4 flex flex-col gap-6 md:mb-8 md:flex-row md:items-end md:justify-between">
+    <div className="shell mb-10 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
       <RevealLines
         id="activity-title"
         lines={["Code / build", "/ ship"]}
@@ -73,44 +74,37 @@ export async function Activity() {
   }
 
   const languages: [string, number][] = data.languages.length ? data.languages.map((l) => [l.name, l.share]) : stackFrequency();
-  const steps: StoryStep[] = [
-    {
-      id: "year",
-      label: "Year",
-      text: "Last 12 months.",
-      summary: `${data.totalContributions?.toLocaleString("en") ?? "Many"} contributions on GitHub in the last year.`,
-      visual: (
-        <div className="flex h-full min-h-0 items-center">
-          <div className="w-full">
-            <ActivitySkyline days={data.days} />
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "numbers",
-      label: "Languages",
-      text: "Most-used across public repos.",
-      summary: `${data.publicRepos} public repositories. ${languages.map(([n]) => n).join(", ")}.`,
-      visual: <NumbersVisual contributions={data.totalContributions} repos={data.publicRepos} languages={languages} />,
-    },
-    ...(data.recent.length
-      ? [
-          {
-            id: "recent",
-            label: "Recent",
-            text: "Recently pushed.",
-            summary: data.recent.map((r) => r.name).join(", "),
-            visual: <ReposVisual repos={data.recent} />,
-          } satisfies StoryStep,
-        ]
-      : []),
-  ];
 
   return (
-    <section aria-labelledby="activity-title" className="relative border-t border-rule pt-20 md:pt-44">
+    <section aria-labelledby="activity-title" className="relative border-t border-rule py-20 md:py-44">
       {heading}
-      <ScrollStory id="activity" eyebrow="GitHub" steps={steps} stepVh={[55, 65]} />
+      <div className="shell grid grid-cols-1 gap-4 md:gap-6">
+        <article aria-label="Contributions in the last year" {...reveal(0)}>
+          <Panel className="max-h-none">
+            <p className="eyebrow">Year · Last 12 months</p>
+            <p className="mt-2 text-sm text-ash">
+              {data.totalContributions?.toLocaleString("en") ?? "Many"} contributions on GitHub in the last year.
+            </p>
+            <div className="mt-6 flex items-center">
+              <div className="w-full">
+                <ActivitySkyline days={data.days} />
+              </div>
+            </div>
+          </Panel>
+        </article>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+          <article aria-label="Languages across public repos" {...reveal(0)}>
+            <p className="eyebrow mb-3">Languages · Most-used across public repos</p>
+            <NumbersVisual contributions={data.totalContributions} repos={data.publicRepos} languages={languages} />
+          </article>
+          {data.recent.length > 0 && (
+            <article aria-label="Recently pushed repositories" {...reveal(1)}>
+              <p className="eyebrow mb-3">Recent · Recently pushed</p>
+              <ReposVisual repos={data.recent} />
+            </article>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

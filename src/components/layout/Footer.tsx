@@ -38,6 +38,11 @@ export function Footer() {
           <p className="text-smoke">Designed &amp; engineered with curiosity.</p>
         </div>
       </div>
+      <div aria-hidden className="pointer-events-none select-none overflow-hidden pb-2 md:pb-4">
+        <p className="display text-outline text-center text-[clamp(3.25rem,15vw,16rem)] leading-[0.85] opacity-40 [--wdth:125]">
+          Abu Zahed
+        </p>
+      </div>
     </footer>
   );
 }
