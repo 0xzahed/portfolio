@@ -6,9 +6,9 @@ import { RevealLines } from "@/components/ui/Reveal";
 /** Home shows compact cards (name + summary); full story lives on /work/[slug]. */
 export function SelectedWork() {
   return (
-    <section id="work" aria-labelledby="work-title" className="relative pb-16 pt-24 md:pt-32">
+    <section id="work" aria-labelledby="work-title" className="relative pb-10 pt-14 md:pt-20">
       <div className="shell">
-        <div className="mb-16 md:mb-32">
+        <div className="mb-8 md:mb-10">
           <RevealLines
             id="work-title"
             lines={["Selected", "work"]}

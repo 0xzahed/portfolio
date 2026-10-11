@@ -4,7 +4,7 @@ import { RevealLines, Fade } from "@/components/ui/Reveal";
 /** Belief as a quiet centered statement — no pinning, no scroll choreography. */
 export function Philosophy() {
   return (
-    <section aria-labelledby="philosophy-title" className="relative border-t border-rule py-28 md:py-48">
+    <section aria-labelledby="philosophy-title" className="relative border-t border-rule py-16 md:py-28">
       <div className="shell mx-auto max-w-5xl text-center">
         <p className="eyebrow">Belief</p>
         <RevealLines

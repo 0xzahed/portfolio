@@ -6,8 +6,8 @@ import { reveal } from "@/lib/reveal";
 /** Roles as a vertical timeline: year dots on a rail, details beside. */
 export function Experience() {
   return (
-    <section id="experience" aria-labelledby="exp-title" className="relative border-t border-rule py-20 md:py-44">
-      <div className="shell mb-10 flex flex-col gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
+    <section id="experience" aria-labelledby="exp-title" className="relative border-t border-rule py-12 md:py-24">
+      <div className="shell mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
         <RevealLines id="exp-title" lines={["Experience"]} className="display text-[clamp(2.25rem,7vw,7.5rem)] [--wdth:76]" />
         <p {...reveal(1)} className="max-w-[36ch] text-sm leading-relaxed text-ash">
           {education.degree} · {education.school}

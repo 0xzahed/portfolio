@@ -84,7 +84,7 @@ export function AboutStory({ profile }: { profile?: GitHubProfile | null }) {
   ];
 
   return (
-    <section aria-labelledby="about-me-title" className="relative py-20 md:py-44">
+    <section aria-labelledby="about-me-title" className="relative py-12 md:py-24">
       <div className="shell">
         <RevealLines
           id="about-me-title"
@@ -207,7 +207,7 @@ export function AboutStory({ profile }: { profile?: GitHubProfile | null }) {
               </figcaption>
             </figure>
 
-            <div {...reveal(2)} className="mt-14 md:mt-20">
+            <div {...reveal(2)} className="mt-10 md:mt-12">
               <p className="eyebrow">What I build</p>
               <ol className="mt-2">
                 {about.builds.map((b, k) => (

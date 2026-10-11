@@ -9,15 +9,15 @@ const VISUALS = [DesignVisual, EngineerVisual, BuildVisual, OptimizeVisual];
 /** How I work as alternating editorial rows: text one side, live diagram the other. */
 export function Process() {
   return (
-    <section aria-labelledby="process-title" className="relative border-t border-rule py-20 md:py-44">
-      <div className="shell mb-10 md:mb-20">
+    <section aria-labelledby="process-title" className="relative border-t border-rule py-12 md:py-24">
+      <div className="shell mb-8 md:mb-12">
         <RevealLines
           id="process-title"
           lines={["How I", "work"]}
           className="display text-[clamp(2.25rem,7vw,7.5rem)] [--wdth:76]"
         />
       </div>
-      <div className="shell space-y-16 md:space-y-24">
+      <div className="shell space-y-10 md:space-y-14">
         {about.process.map((s, k) => {
           const Visual = VISUALS[k];
           const flip = k % 2 === 1;

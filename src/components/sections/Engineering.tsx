@@ -19,8 +19,8 @@ function projectsFor(group: SkillGroup) {
 export function Engineering() {
   const [open, setOpen] = useState(0);
   return (
-    <section aria-labelledby="eng-title" className="relative border-t border-rule py-20 md:py-44">
-      <div className="shell mb-10 flex flex-col gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
+    <section aria-labelledby="eng-title" className="relative border-t border-rule py-12 md:py-24">
+      <div className="shell mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
         <RevealLines
           id="eng-title"
           lines={["Engineered", "with intention."]}

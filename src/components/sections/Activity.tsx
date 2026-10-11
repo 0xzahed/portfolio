@@ -39,7 +39,7 @@ export async function Activity() {
   const data = await getGitHubActivity();
 
   const heading = (
-    <div className="shell mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
+    <div className="shell mb-8 flex flex-col gap-6 md:mb-10 md:flex-row md:items-end md:justify-between">
       <RevealLines
         id="activity-title"
         lines={["Code / build", "/ ship"]}
@@ -55,7 +55,7 @@ export async function Activity() {
 
   if (!data || !data.days) {
     return (
-      <section aria-labelledby="activity-title" className="relative border-t border-rule py-20 md:py-44">
+      <section aria-labelledby="activity-title" className="relative border-t border-rule py-12 md:py-24">
         {heading}
         <div className="shell">
           <EmptyGrid />
@@ -71,7 +71,7 @@ export async function Activity() {
   const languages: [string, number][] = data.languages.length ? data.languages.map((l) => [l.name, l.share]) : stackFrequency();
 
   return (
-    <section aria-labelledby="activity-title" className="relative border-t border-rule py-20 md:py-44">
+    <section aria-labelledby="activity-title" className="relative border-t border-rule py-12 md:py-24">
       {heading}
       <div className="shell">
         <ActivityTabs

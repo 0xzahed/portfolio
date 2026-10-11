@@ -22,7 +22,7 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className="relative border-t border-rule pb-20 pt-20 md:pb-32 md:pt-48"
+      className="relative border-t border-rule pb-12 pt-12 md:pb-20 md:pt-28"
     >
       <div className="shell">
         <RevealLines
@@ -31,7 +31,7 @@ export function Contact() {
           className="display text-[9.5vw] [--wdth:96] md:text-[clamp(2.75rem,9vw,11rem)]"
         />
 
-        <div className="mt-16 md:mt-24">
+        <div className="mt-10 md:mt-14">
           <div {...reveal(0, "left")} className="border-t border-rule py-8">
             <p className="text-sm text-ash">Email — click to write, or copy it</p>
             <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-4">

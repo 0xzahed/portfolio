@@ -13,7 +13,7 @@ const TRACK = [
 export function CurrentlyBuilding() {
   const updated = new Date(cb.updated + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
   return (
-    <section aria-label="Currently building" className="relative border-t border-rule py-20 md:py-44">
+    <section aria-label="Currently building" className="relative border-t border-rule py-12 md:py-24">
       <div className="shell">
         <div {...reveal(0)} className="overflow-hidden rounded-3xl border border-rule bg-graphite/70">
           <div className="grid grid-cols-1 lg:grid-cols-12">
