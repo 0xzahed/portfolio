@@ -5,6 +5,11 @@ export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="relative border-t border-rule">
+      <div aria-hidden className="pointer-events-none select-none overflow-hidden pt-6 md:pt-10">
+        <p className="display text-outline text-center text-[clamp(3.25rem,15vw,16rem)] leading-[0.85] [--wdth:125]">
+          Zahed
+        </p>
+      </div>
       <div className="shell grid grid-cols-2 gap-x-6 gap-y-10 py-12 text-sm md:grid-cols-12">
         <div {...reveal(0)} className="col-span-2 md:col-span-4">
           <p className="display text-2xl [--wdth:112]">
@@ -37,11 +42,6 @@ export function Footer() {
           <p>© {year} {person.name}</p>
           <p className="text-smoke">Designed &amp; engineered with curiosity.</p>
         </div>
-      </div>
-      <div aria-hidden className="pointer-events-none select-none overflow-hidden pb-2 md:pb-4">
-        <p className="display text-outline text-center text-[clamp(3.25rem,15vw,16rem)] leading-[0.85] [--wdth:125]">
-          Abu Zahed
-        </p>
       </div>
     </footer>
   );
