@@ -22,7 +22,6 @@
 
   --animate-pulse-dot: pulse-dot 2.4s var(--ease-out-expo) infinite;
   --animate-grain: grain 0.9s steps(6) infinite;
-  --animate-marquee: marquee 30s linear infinite;
 
   @keyframes pulse-dot {
     0% { transform: scale(1); opacity: 0.7; }
@@ -35,10 +34,6 @@
     60% { transform: translate(-2%, -1%); }
     80% { transform: translate(3%, 3%); }
     100% { transform: translate(0, 0); }
-  }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
   }
 }
 
