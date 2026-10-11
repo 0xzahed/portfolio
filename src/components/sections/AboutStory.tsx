@@ -4,6 +4,7 @@ import Image from "next/image";
 import { animate, m, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 import { about, experience, person, projects, skills, socials } from "@/data/portfolio";
+import type { GitHubProfile } from "@/lib/github";
 import { useLocalTime } from "@/hooks/useLocalTime";
 import { RevealLines } from "@/components/ui/Reveal";
 import { StatusDot } from "@/components/ui/StatusDot";
@@ -70,7 +71,7 @@ function Counter({ to }: { to: number }) {
  * About as an editorial dossier: one sticky identity rail, everything else
  * flows as typography — no card grid, no boxes, no pinning.
  */
-export function AboutStory() {
+export function AboutStory({ profile }: { profile?: GitHubProfile | null }) {
   const time = useLocalTime(person.timezone);
   const { role, scope, care } = about.story;
   const github = socials.find((s) => s.label === "GitHub");
@@ -101,18 +102,28 @@ export function AboutStory() {
           <aside aria-label="Identity" className="md:col-span-4">
             <div className="md:sticky md:top-28">
               <div {...reveal(0)} className="overflow-hidden rounded-3xl border border-rule bg-graphite/70">
-                <div className="relative aspect-[4/5] w-full">
-                  <Image
-                    src={portrait}
-                    alt={`Portrait of ${person.name}`}
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="h-full w-full object-cover object-top"
-                  />
+                <div className="relative aspect-square w-full">
+                  {profile ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={profile.avatarUrl}
+                      alt={`GitHub avatar of ${profile.name ?? profile.username}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Image
+                      src={portrait}
+                      alt={`Portrait of ${person.name}`}
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="h-full w-full object-cover object-top"
+                    />
+                  )}
                   <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
                     <div>
-                      <p className="display text-2xl text-bone [--wdth:104]">{person.name}</p>
-                      <p className="mt-0.5 text-sm text-bone/70">{person.role}</p>
+                      <p className="display text-2xl text-bone [--wdth:104]">{profile?.name ?? person.name}</p>
+                      <p className="mt-0.5 text-sm text-bone/70">{profile ? `@${profile.username}` : person.role}</p>
                     </div>
                     {person.available && (
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-signal/40 bg-ink/60 px-3 py-1.5 text-[0.6875rem] text-mint backdrop-blur-sm">
@@ -123,6 +134,27 @@ export function AboutStory() {
                   </div>
                 </div>
               </div>
+
+              {profile?.bio && (
+                <p {...reveal(0)} className="mt-5 border-l-2 border-signal pl-4 text-[0.9375rem] leading-relaxed text-bone/85">
+                  {profile.bio}
+                </p>
+              )}
+
+              {profile && (
+                <div {...reveal(1)} className="mt-5 grid grid-cols-3 gap-2 text-center">
+                  {[
+                    { v: profile.followers, l: "Followers" },
+                    { v: profile.following, l: "Following" },
+                    { v: profile.publicRepos, l: "Repos" },
+                  ].map((s) => (
+                    <div key={s.l} className="rounded-2xl border border-rule bg-graphite/70 px-2 py-3">
+                      <p className="display text-xl text-bone tabular-nums [--wdth:70]">{s.v.toLocaleString("en")}</p>
+                      <p className="mt-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-smoke">{s.l}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <dl {...reveal(1)} className="mt-6 space-y-4 text-sm">
                 <div className="flex items-baseline justify-between gap-4 border-b border-rule pb-4">

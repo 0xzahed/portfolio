@@ -11,6 +11,17 @@ export type GitHubActivity = {
   recent: RepoSummary[];
 };
 
+export type GitHubProfile = {
+  username: string;
+  name: string | null;
+  bio: string | null;
+  avatarUrl: string;
+  followers: number;
+  following: number;
+  publicRepos: number;
+  url: string;
+};
+
 const opts = { next: { revalidate: github.revalidateSeconds } } as const;
 
 type ApiRepo = {
@@ -74,6 +85,39 @@ export async function getGitHubActivity(): Promise<GitHubActivity | null> {
         stars: r.stargazers_count,
         pushedAt: r.pushed_at,
       })),
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** Real profile (avatar, bio, followers) for the About rail. Null when unreachable. */
+export async function getGitHubProfile(): Promise<GitHubProfile | null> {
+  const username = github.username.trim();
+  if (!username) return null;
+  try {
+    const headers: HeadersInit = { Accept: "application/vnd.github+json" };
+    if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+    const res = await fetch(`https://api.github.com/users/${username}`, { ...opts, headers });
+    if (!res.ok) return null;
+    const u = (await res.json()) as {
+      name: string | null;
+      bio: string | null;
+      avatar_url: string;
+      followers: number;
+      following: number;
+      public_repos: number;
+      html_url: string;
+    };
+    return {
+      username,
+      name: u.name,
+      bio: u.bio,
+      avatarUrl: u.avatar_url,
+      followers: u.followers,
+      following: u.following,
+      publicRepos: u.public_repos,
+      url: u.html_url,
     };
   } catch {
     return null;

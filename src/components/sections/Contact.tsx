@@ -31,57 +31,30 @@ export function Contact() {
           className="display text-[9.5vw] [--wdth:96] md:text-[clamp(2.75rem,9vw,11rem)]"
         />
 
-        <div className="mt-16 grid grid-cols-1 gap-12 md:mt-24 md:grid-cols-12 md:gap-x-6">
-          <div className="md:col-span-5">
-            <p
-              {...reveal(0)}
-              className="max-w-[30ch] text-xl leading-snug md:text-2xl"
-            >
-              {contact.subtext}
-            </p>
-            <div {...reveal(1, "scale")} className="mt-10">
-              <Magnetic strength={0.25}>
-                <a
-                  href={`mailto:${person.email}?subject=${encodeURIComponent("Project enquiry")}`}
-                  className="group inline-flex h-16 items-center gap-4 bg-signal pl-7 pr-6 text-[0.9375rem] font-medium uppercase tracking-[0.08em] text-ink transition-colors duration-300 hover:bg-mint md:h-20 md:pl-9 md:pr-8"
-                >
-                  {contact.cta}
-                </a>
-              </Magnetic>
-            </div>
-          </div>
-
-          <div className="md:col-span-6 md:col-start-7">
-            <dl>
-              <div
-                {...reveal(0, "left")}
-                className="flex items-center justify-between gap-4 border-t border-rule py-5"
+        <div className="mt-16 md:mt-24">
+          <div {...reveal(0, "left")} className="border-t border-rule py-8">
+            <p className="text-sm text-ash">Email — click to write, or copy it</p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <a
+                href={`mailto:${person.email}`}
+                className="display link-line break-all text-[clamp(1.75rem,6vw,4.5rem)] leading-none [--wdth:96]"
               >
-                <dt className="text-sm text-ash">Email</dt>
-                <dd className="flex items-center gap-3">
-                  <a
-                    href={`mailto:${person.email}`}
-                    className="link-line text-lg md:text-xl"
-                  >
-                    {person.email}
-                  </a>
-                  <button
-                    type="button"
-                    onClick={copy}
-                    className="h-9 border border-rule-strong px-3 text-[0.6875rem] uppercase tracking-[0.1em] text-ash transition-colors hover:border-bone hover:text-bone"
-                    aria-label={copied ? "Email copied" : "Copy email address"}
-                  >
-                    {copied ? (
-                      <span className="text-signal">Copied</span>
-                    ) : (
-                      "Copy"
-                    )}
-                  </button>
-                  <span role="status" className="sr-only">
-                    {copied ? "Email address copied to clipboard" : ""}
-                  </span>
-                </dd>
-              </div>
+                {person.email}
+              </a>
+              <button
+                type="button"
+                onClick={copy}
+                className="h-11 shrink-0 cursor-pointer border border-rule-strong px-5 text-[0.6875rem] uppercase tracking-[0.1em] text-ash transition-colors hover:border-bone hover:text-bone"
+                aria-label={copied ? "Email copied" : "Copy email address"}
+              >
+                {copied ? <span className="text-signal">Copied</span> : "Copy"}
+              </button>
+            </div>
+            <span role="status" className="sr-only">
+              {copied ? "Email address copied to clipboard" : ""}
+            </span>
+          </div>
+          <dl>
               {socials.map((s, k) => (
                 <div
                   key={s.label}
@@ -110,6 +83,21 @@ export function Contact() {
                 </div>
               ))}
             </dl>
+
+          <div className="mt-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <p {...reveal(2)} className="max-w-[34ch] text-xl leading-snug md:text-2xl">
+              {contact.subtext}
+            </p>
+            <div {...reveal(3, "scale")}>
+              <Magnetic strength={0.25}>
+                <a
+                  href={`mailto:${person.email}?subject=${encodeURIComponent("Project enquiry")}`}
+                  className="inline-flex h-16 items-center gap-4 bg-signal pl-7 pr-6 text-[0.9375rem] font-medium uppercase tracking-[0.08em] text-ink transition-colors duration-300 hover:bg-mint md:h-20 md:pl-9 md:pr-8"
+                >
+                  {contact.cta}
+                </a>
+              </Magnetic>
+            </div>
           </div>
         </div>
       </div>

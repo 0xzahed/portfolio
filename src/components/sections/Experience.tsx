@@ -1,38 +1,39 @@
 import { education, experience } from "@/data/portfolio";
 import { RevealLines } from "@/components/ui/Reveal";
-import { Chips, Panel } from "@/components/story/atoms";
+import { Chips } from "@/components/story/atoms";
 import { reveal } from "@/lib/reveal";
 
-/** Roles as cards: year + company + summary + stack. No pinning. */
+/** Roles as a vertical timeline: year dots on a rail, details beside. */
 export function Experience() {
   return (
     <section id="experience" aria-labelledby="exp-title" className="relative border-t border-rule py-20 md:py-44">
-      <div className="shell mb-10 md:mb-16">
+      <div className="shell mb-10 flex flex-col gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
         <RevealLines id="exp-title" lines={["Experience"]} className="display text-[clamp(2.25rem,7vw,7.5rem)] [--wdth:76]" />
-      </div>
-      <div className="shell grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
-        {experience.map((item, k) => (
-          <article key={`${item.period}-${item.org}`} aria-label={`${item.role}, ${item.org}`} {...reveal(k % 3)} className="h-full">
-            <Panel className="flex max-h-none min-h-[18rem] flex-col justify-between gap-6">
-              <div>
-                <p className="font-mono text-xs tabular-nums text-signal">{item.period}</p>
-                <h3 className="display mt-2 text-[clamp(1.5rem,2.6vw,2rem)] [--wdth:104]">
-                  {item.org}
-                </h3>
-                <p className="mt-1 text-sm text-ash">{item.role}</p>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-bone/85">{item.summary}</p>
-              </div>
-              <div>
-                <Chips items={item.stack} />
-              </div>
-            </Panel>
-          </article>
-        ))}
-      </div>
-      <div className="shell mt-6">
-        <p {...reveal(0)} className="font-mono text-[0.6875rem] text-smoke">
+        <p {...reveal(1)} className="max-w-[36ch] text-sm leading-relaxed text-ash">
           {education.degree} · {education.school}
         </p>
+      </div>
+      <div className="shell">
+        <ol {...reveal(0)} className="relative ml-1 border-l border-rule-strong pl-8 md:ml-2 md:pl-14">
+          {experience.map((item, k) => (
+            <li key={`${item.period}-${item.org}`} className={k > 0 ? "relative mt-12 md:mt-16" : "relative"}>
+              <span aria-hidden className="absolute top-2 -left-8 size-2.5 -translate-x-1/2 rounded-full bg-signal ring-4 ring-signal/15 md:-left-14" />
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-12 md:gap-x-6">
+                <div className="md:col-span-3">
+                  <p className="display text-[clamp(1.75rem,3vw,2.5rem)] text-signal tabular-nums [--wdth:62]">{item.period}</p>
+                  <p className="mt-1 font-mono text-xs uppercase tracking-[0.12em] text-ash">{item.org}</p>
+                </div>
+                <div className="md:col-span-9">
+                  <h3 className="display text-[clamp(1.5rem,2.8vw,2.25rem)] [--wdth:104]">{item.role}</h3>
+                  <p className="mt-2 max-w-[56ch] leading-relaxed text-bone/85">{item.summary}</p>
+                  <div className="mt-4">
+                    <Chips items={item.stack} />
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
-import { AboutStory } from "@/components/sections/AboutStory";
+import { AboutSection } from "@/components/sections/AboutSection";
 import { Process } from "@/components/sections/Process";
 import { SelectedWork } from "@/components/sections/SelectedWork";
 import { Engineering } from "@/components/sections/Engineering";
@@ -25,7 +25,7 @@ export default function Home() {
         <About />
       </Suspense>
       <Suspense>
-        <AboutStory />
+        <AboutSection />
       </Suspense>
       <Suspense>
         <Process />
