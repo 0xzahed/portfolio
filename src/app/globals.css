@@ -196,10 +196,7 @@
 }
 
 /*
- * Pinned scroll stories (components/story/ScrollStory). The section is tall and one screen
- * sticks while you scroll; React only flips data-active. Every motion below is a CSS
- * transition on opacity / transform / translate / scale, so it stays on the compositor.
- * --rel is (step index - active index): the big label slides in from below or out above.
+ * (Legacy pinned-story styles; sections now render as cards. Kept for reference.)
  */
 @layer components {
   .story-step {
