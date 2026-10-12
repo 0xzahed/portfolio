@@ -5,7 +5,6 @@ import { IntroProvider } from "@/components/providers/IntroProvider";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { Preloader } from "@/components/ui/Preloader";
-import { Cursor } from "@/components/ui/Cursor";
 import { Grain } from "@/components/ui/Grain";
 import { RevealObserver } from "@/components/ui/RevealObserver";
 import { SiteField } from "@/components/ui/SiteField";
@@ -138,7 +137,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Nav />
               <main id="main" className="relative">{children}</main>
               <Footer />
-              <Cursor />
               <Grain />
               <RevealObserver />
             </SmoothScroll>

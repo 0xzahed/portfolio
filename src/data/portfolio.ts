@@ -144,6 +144,12 @@ export const projects: Project[] = [
     role: "Design & front-end development",
     technologies: ["Node.js", "Express", "EJS", "Three.js", "Motion"],
     visual: "commerce",
+    image: {
+      src: "/projects/savoria.webp",
+      alt: "The Savoria restaurant website: cinematic hero with a signature dish and menu highlights.",
+      width: 1600,
+      height: 1000,
+    },
     liveUrl: "https://restaruant-xi.vercel.app",
     caseStudy: {
       problem:
