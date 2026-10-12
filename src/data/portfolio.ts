@@ -304,30 +304,6 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "mulboi",
-    title: "Mulboi",
-    category: "Bookstore landing page",
-    year: "2026",
-    summary:
-      "A Bengali bookstore landing page with book slider, category filter and course sections.",
-    role: "Design & front-end development",
-    technologies: ["Next.js", "React"],
-    visual: "feed",
-    caseStudy: {
-      problem:
-        "A minimal single-page bookstore needed a sticky header and wrapping nav that survives small screens without any CSS framework.",
-      approach:
-        "One Next.js page with inline styles, upgraded to a sticky header with a wrapping, overflow-safe navigation row.",
-      highlights: [
-        { title: "Sticky dark header", body: "Brand header stays pinned with its identity intact." },
-        { title: "Overflow-safe nav", body: "Anchor links wrap cleanly instead of clipping on phones." },
-        { title: "Zero dependencies", body: "No UI framework — plain React state for the slider and filters." },
-      ],
-      outcome:
-        "Front-end demo. Live URL will be added once deployed. Some content blocks are still placeholders.",
-    },
-  },
-  {
     slug: "nohabi-hut",
     title: "Nohabi Hut",
     category: "Online store",
