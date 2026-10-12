@@ -53,7 +53,7 @@ void main(){
 
   // fade toward the left (where the type sits) and the bottom
   float vign = smoothstep(0.0, 0.75, uv.x*0.9 + 0.15) * smoothstep(0.0, 0.35, uv.y) * smoothstep(1.05, 0.55, uv.y);
-  float alpha = line * (0.055 + lens*0.22) * vign * uReveal;
+  float alpha = line * (0.085 + lens*0.3) * vign * uReveal;
 
   vec3 base = vec3(0.95, 0.95, 0.93);
   vec3 accent = vec3(0.125, 0.718, 0.588);
