@@ -3,9 +3,8 @@
 import { useEffect, useRef } from "react";
 
 /**
- * A quiet topographic "signal field": iso-contours of slowly drifting noise,
- * warmed toward the accent near the pointer. Raw WebGL, one full-screen
- * triangle, rendered at reduced resolution and paused off-screen.
+ * A quiet topographic "signal field": iso-contours of slowly drifting noise.
+ * Raw WebGL, one full-screen triangle, rendered at reduced resolution and paused off-screen.
  */
 const VERT = `
 attribute vec2 p;
@@ -39,11 +38,11 @@ void main(){
 
   vec2 m = (uMouse - 0.5) * vec2(uRes.x/uRes.y, 1.0);
   float d = length(p - m);
-  float lens = exp(-d*d*6.0);
+  // No pointer glow: only the rope-like contour field drifts.
 
   // domain-warped height field
   vec2 q = vec2(fbm(p*1.6 + t), fbm(p*1.6 - t + 4.0));
-  float h = fbm(p*1.25 + q*1.3 + vec2(t*0.6, -t*0.4)) + lens*0.18;
+  float h = fbm(p*1.25 + q*1.3 + vec2(t*0.6, -t*0.4));
 
   // contour lines with screen-space width
   float bands = 22.0;
@@ -53,11 +52,9 @@ void main(){
 
   // fade toward the left (where the type sits) and the bottom
   float vign = smoothstep(0.0, 0.75, uv.x*0.9 + 0.15) * smoothstep(0.0, 0.35, uv.y) * smoothstep(1.05, 0.55, uv.y);
-  float alpha = line * (0.085 + lens*0.3) * vign * uReveal;
+  float alpha = line * 0.085 * vign * uReveal;
 
-  vec3 base = vec3(0.95, 0.95, 0.93);
-  vec3 accent = vec3(0.125, 0.718, 0.588);
-  vec3 col = mix(base, accent, clamp(lens*1.6, 0.0, 1.0));
+  vec3 col = vec3(0.95, 0.95, 0.93);
   gl_FragColor = vec4(col*alpha, alpha);
 }
 `;
