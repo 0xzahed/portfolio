@@ -5,6 +5,7 @@ import { useState } from "react";
 import { projects, skills } from "@/data/portfolio";
 import { RevealLines } from "@/components/ui/Reveal";
 import { Chips } from "@/components/story/atoms";
+import { DsaGraph } from "@/components/sections/DsaGraph";
 import { reveal } from "@/lib/reveal";
 import { cn, pad } from "@/lib/utils";
 import type { SkillGroup } from "@/lib/types";
@@ -73,20 +74,27 @@ export function Engineering() {
                   )}
                 >
                   <div className="overflow-hidden">
-                    <div className="flex flex-col gap-5 pb-7 pl-9 md:flex-row md:items-center md:justify-between md:pl-14">
-                      <Chips items={g.items} />
-                      {shipped.length > 0 && (
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-mono text-[0.625rem] uppercase tracking-[0.12em] text-smoke">Shipped in</span>
-                          {shipped.map((p) => (
-                            <Link
-                              key={p.slug}
-                              href={`/work/${p.slug}`}
-                              className="inline-flex h-9 items-center rounded-full border border-rule-strong px-4 text-sm transition-colors hover:border-signal hover:text-mint"
-                            >
-                              {p.title}
-                            </Link>
-                          ))}
+                    <div className="pb-7 pl-9 md:pl-14">
+                      {g.id === "dsa" ? (
+                        /* DSA gets a graph instead of a chip row. */
+                        <DsaGraph />
+                      ) : (
+                        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                          <Chips items={g.items} />
+                          {shipped.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="font-mono text-[0.625rem] uppercase tracking-[0.12em] text-smoke">Shipped in</span>
+                              {shipped.map((p) => (
+                                <Link
+                                  key={p.slug}
+                                  href={`/work/${p.slug}`}
+                                  className="inline-flex h-9 items-center rounded-full border border-rule-strong px-4 text-sm transition-colors hover:border-signal hover:text-mint"
+                                >
+                                  {p.title}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

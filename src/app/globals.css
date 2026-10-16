@@ -272,6 +272,54 @@
   }
 }
 
+/* DSA knowledge graph (Engineering accordion). The staggered sweep + flowing
+   spokes repeat by design; prefers-reduced-motion squashes every animation to
+   ~0 by the global reset, leaving a static graph, and the orbiting token is
+   hidden outright so it can't park mid-frame over a node. */
+@layer components {
+  .dsa-node,
+  .dsa-node-text {
+    animation-duration: 14.4s;
+    animation-delay: calc(var(--i, 0) * 1.2s);
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  .dsa-node {
+    animation-name: dsa-visit;
+  }
+  .dsa-node-text {
+    animation-name: dsa-visit-text;
+  }
+  .dsa-spoke {
+    stroke-dasharray: 3 7;
+    animation: dsa-flow 3s linear infinite;
+  }
+  .dsa-token {
+    offset-path: path("M 120 170 a 340 132 0 1 0 680 0 a 340 132 0 1 0 -680 0");
+    offset-rotate: 0deg;
+    animation: dsa-orbit 24s linear infinite;
+  }
+  @keyframes dsa-visit {
+    0%, 5% { stroke: var(--color-mint); }
+    13%, 100% { stroke: var(--color-rule-strong); }
+  }
+  @keyframes dsa-visit-text {
+    0%, 5% { fill: var(--color-mint); }
+    13%, 100% { fill: var(--color-bone); }
+  }
+  @keyframes dsa-flow {
+    to { stroke-dashoffset: -20; }
+  }
+  @keyframes dsa-orbit {
+    to { offset-distance: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dsa-token {
+      display: none;
+    }
+  }
+}
+
 /*
  * FocusPanel: the pressed button outlines the drawing parts that list its number in data-part.
  * An animation (not a transition) is used so it never fights the .s-* entrance transitions.

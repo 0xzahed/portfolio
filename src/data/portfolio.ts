@@ -461,6 +461,7 @@ export const skills: SkillGroup[] = [
   { id: "frontend", label: "Frontend", note: "Interfaces that load fast and feel deliberate.", items: ["React", "Next.js", "TypeScript", "Tailwind", "Framer Motion"] },
   { id: "backend", label: "Backend", note: "Domain-driven services with clear boundaries.", items: ["Python", "Django", "Node.js", "REST APIs", "WebSockets"] },
   { id: "data", label: "Database", note: "Schemas that enforce the rules themselves.", items: ["PostgreSQL", "MySQL", "Redis"] },
+  { id: "dsa", label: "DSA & Algorithms", note: "The fundamentals under the stack — how data structures and algorithms stay fast.", items: ["Arrays", "Linked Lists", "Stacks & Queues", "Hash Tables", "Trees & Heaps", "Graphs", "Sorting & Searching", "Recursion", "Dynamic Programming", "Greedy", "BFS / DFS", "Two Pointers & Sliding Window", "Big-O"] },
   { id: "ai", label: "AI / ML", note: "Models evaluated honestly, not just trained.", items: ["Python", "PyTorch", "TensorFlow", "Computer Vision"] },
   { id: "devops", label: "DevOps", note: "Reproducible from laptop to server.", items: ["Linux", "Docker", "Nginx", "Cloud", "CI/CD"] },
   { id: "security", label: "Security", note: "Tested from the attacker's side.", items: ["Web Security", "API Security", "Authentication", "OWASP"] },
