@@ -374,6 +374,12 @@
       stroke-dashoffset: 0;
     }
   }
+  .sg-static .sg-node {
+    opacity: 1;
+  }
+  .sg-static .sg-edge {
+    stroke-dashoffset: 0;
+  }
   @media (prefers-reduced-motion: reduce) {
     .sg-node {
       opacity: 1;
