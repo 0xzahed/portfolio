@@ -341,3 +341,47 @@
     animation: part-on 0.35s ease;
   }
 }
+
+/*
+ * StackGraph: nodes fade in staggered, edges draw themselves (pathLength is normalised to 1).
+ * The animation sits on the outer .sg-node <g> / the path's dashoffset, so the hover dimming
+ * (inline opacity on the inner group) is never overridden by an animation fill.
+ * Starts when the wrapper gets .is-in (RevealObserver). Reduced motion: shown straight away.
+ */
+@layer components {
+  .sg-node {
+    opacity: 0;
+  }
+  .sg-edge {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .stack-graph.is-in .sg-node {
+    animation: sg-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(0.15s + var(--i, 0) * 45ms);
+  }
+  .stack-graph.is-in .sg-edge {
+    animation: sg-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--i, 0) * 28ms);
+  }
+  @keyframes sg-pop {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes sg-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sg-node {
+      opacity: 1;
+      animation: none !important;
+    }
+    .sg-edge {
+      stroke-dashoffset: 0;
+      animation: none !important;
+    }
+  }
+}

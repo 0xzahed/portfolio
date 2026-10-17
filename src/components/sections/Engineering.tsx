@@ -6,6 +6,7 @@ import { projects, skills } from "@/data/portfolio";
 import { RevealLines } from "@/components/ui/Reveal";
 import { Chips } from "@/components/story/atoms";
 import { DsaGraph } from "@/components/sections/DsaGraph";
+import { StackGraph } from "@/components/sections/StackGraph";
 import { reveal } from "@/lib/reveal";
 import { cn, pad } from "@/lib/utils";
 import type { SkillGroup } from "@/lib/types";
@@ -32,6 +33,10 @@ export function Engineering() {
         </p>
       </div>
       <div className="shell">
+        {/* The whole stack at a glance. Phones and tablets use the accordion below instead. */}
+        <div {...reveal(0)} className="stack-graph mx-auto mb-10 hidden max-w-[1250px] lg:block">
+          <StackGraph />
+        </div>
         <div {...reveal(0)} className="border-t border-rule">
           {skills.map((g, i) => {
             const isOpen = i === open;
